@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '7e4b327c1eda5ac5fc2822b9ce4e91cec9730f38',
+        'reference' => 'd4056485bb4d7a61c6318e2c4f5ecd47216a54fa',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -379,6 +379,15 @@
                 0 => 'v8.81.0',
             ),
         ),
+        'jantinnerezo/livewire-alert' => array(
+            'pretty_version' => '2.2.3',
+            'version' => '2.2.3.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../jantinnerezo/livewire-alert',
+            'aliases' => array(),
+            'reference' => '8225e494f6106f80719f23b5874b15c6bf76fa1d',
+            'dev_requirement' => false,
+        ),
         'kodova/hamcrest-php' => array(
             'dev_requirement' => true,
             'replaced' => array(
@@ -400,7 +409,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '7e4b327c1eda5ac5fc2822b9ce4e91cec9730f38',
+            'reference' => 'd4056485bb4d7a61c6318e2c4f5ecd47216a54fa',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(

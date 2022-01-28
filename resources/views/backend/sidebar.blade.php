@@ -1,153 +1,79 @@
-<aside class="sidebar">
-    <div class="sidebar-start">
-        <div class="sidebar-head">
-            <a href="/" class="logo-wrapper" title="Home">
-                <span class="sr-only">Home</span>
-                <span class="icon logo" aria-hidden="true"></span>
-                <div class="logo-text">
-                    <span class="logo-title">Elegant</span>
-                    <span class="logo-subtitle">Dashboard</span>
-                </div>
-
-            </a>
-            <button class="sidebar-toggle transparent-btn" title="Menu" type="button">
-                <span class="sr-only">Toggle menu</span>
-                <span class="icon menu-toggle" aria-hidden="true"></span>
-            </button>
-        </div>
-        <div class="sidebar-body">
-            <ul class="sidebar-body-menu">
-                <li>
-                    <a class="active" href="/"><span class="icon home" aria-hidden="true"></span>Inicio</a>
-                </li>
-                <li>
-                    <a class="show-cat-btn" href="##">
-                        <span class="icon document" aria-hidden="true"></span>Posts
-                        <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
-                    </a>
-                    <ul class="cat-sub-menu">
-                        <li>
-                            <a href="posts.html">All Posts</a>
-                        </li>
-                        <li>
-                            <a href="new-post.html">Add new post</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a class="show-cat-btn" href="##">
-                        
-                        <span class="icon folder" aria-hidden="true"></span>Categories
-                        <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
-                    </a>
-                    <ul class="cat-sub-menu">
-                        <li>
-                            <a href="categories.html">All categories</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a class="show-cat-btn" href="##">
-                        <span class="icon image" aria-hidden="true"></span>Media
-                        <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
-                    </a>
-                    <ul class="cat-sub-menu">
-                        <li>
-                            <a href="media-01.html">Media-01</a>
-                        </li>
-                        <li>
-                            <a href="media-02.html">Media-02</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a class="show-cat-btn" href="##">
-                        <span class="icon paper" aria-hidden="true"></span>Pages
-                        <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
-                    </a>
-                    <ul class="cat-sub-menu">
-                        <li>
-                            <a href="pages.html">All pages</a>
-                        </li>
-                        <li>
-                            <a href="new-page.html">Add new page</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="comments.html">
-                        <span class="icon message" aria-hidden="true"></span>
-                        Comments
-                    </a>
-                    <span class="msg-counter">7</span>
-                </li>
-            </ul>
-            <span class="system-menu__title">system</span>
-            <ul class="sidebar-body-menu">
-                <li>
-                    <a href="appearance.html"><span class="icon edit" aria-hidden="true"></span>Appearance</a>
-                </li>
-                <li>
-                    <a class="show-cat-btn" href="##">
-                        <span class="icon category" aria-hidden="true"></span>Extentions
-                        <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
-                    </a>
-                    <ul class="cat-sub-menu">
-                        <li>
-                            <a href="extention-01.html">Extentions-01</a>
-                        </li>
-                        <li>
-                            <a href="extention-02.html">Extentions-02</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a class="show-cat-btn" href="##">
-                        <span class="icon user-3" aria-hidden="true"></span>Users
-                        <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
-                    </a>
-                    <ul class="cat-sub-menu">
-                        <li>
-                            <a href="users-01.html">Users-01</a>
-                        </li>
-                        <li>
-                            <a href="users-02.html">Users-02</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="##"><span class="icon setting" aria-hidden="true"></span>Settings</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="sidebar-footer">
-        <a href="##" class="sidebar-user">
-            <span class="sidebar-user-img">
-                <picture><source srcset="{{ asset('backend/img/avatar/avatar-illustrated-01.webp') }}" type="image/webp"><img src="{{ asset('backend/img/avatar/avatar-illustrated-01.png') }}" alt="User name"></picture>
-            </span>
-            <div class="sidebar-user-info">
-                <span class="sidebar-user__title">Nafisa Sh.</span>
-                <span class="sidebar-user__subtitle">Support manager</span>
-            </div>
+<aside class="sidebar-left border-right bg-white shadow" id="leftSidebar" data-simplebar>
+    <a href="#" class="btn collapseSidebar toggle-btn d-lg-none text-muted ml-2 mt-3" data-toggle="toggle">
+      <i class="fe fe-x"><span class="sr-only"></span></i>
+    </a>
+    <nav class="vertnav navbar navbar-light">
+      <!-- nav bar -->
+      <div class="w-100 mb-4 d-flex">
+        <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="./index.html">
+          <svg version="1.1" id="logo" class="navbar-brand-img brand-sm" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve">
+            <g>
+              <polygon class="st0" points="78,105 15,105 24,87 87,87 	" />
+              <polygon class="st0" points="96,69 33,69 42,51 105,51 	" />
+              <polygon class="st0" points="78,33 15,33 24,15 87,15 	" />
+            </g>
+          </svg>
         </a>
-    </div>
-</aside>
+      </div>
+      
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+        <li class="nav-item w-100 " id="inicio">
+          <a class="nav-link" href="{{ url('administracion/') }}">
+            <i class="fe fe-home fe-16"></i>
+            <span class="ml-3 item-text">Inicio</span>
+          </a>
+        </li>
+        <li class="nav-item w-100 " id="categorias">
+          <a class="nav-link" href="{{ url('administracion/categorias') }}">
+            <i class="fe fe-grid fe-16"></i>
+            <span class="ml-3 item-text">Categorias</span>
+          </a>
+        </li>
+        <li class="nav-item w-100 " id="subcategorias">
+          <a class="nav-link" href="{{ url('administracion/sub-categorias') }}">
+            <i class="fe fe-command fe-16"></i>
+            <span class="ml-3 item-text">Sub Categorias</span>
+          </a>
+        </li>
+        <li class="nav-item w-100 " id="marcas">
+          <a class="nav-link" href="{{ url('administracion/marcas') }}">
+            <i class="fe fe-package fe-16"></i>
+            <span class="ml-3 item-text">Marcas</span>
+          </a>
+        </li>
+
+        <li class="nav-item w-100 " id="colores">
+          <a class="nav-link" href="{{ url('administracion/colores') }}">
+            <i class="fe fe-slack fe-16"></i>
+            <span class="ml-3 item-text">Colores</span>
+          </a>
+        </li>
+        <li class="nav-item w-100 " id="estilos">
+          <a class="nav-link" href="{{ url('administracion/estilos') }}">
+            <i class="fe fe-sliders fe-16"></i>
+            <span class="ml-3 item-text">Estilos</span>
+          </a>
+        </li>
+        <li class="nav-item w-100 " id="tallas">
+          <a class="nav-link" href="{{ url('administracion/tallas') }}">
+            <i class="fe fe-crosshair fe-16"></i>
+            <span class="ml-3 item-text">Tallas</span>
+          </a>
+        </li>
+        <li class="nav-item w-100 " id="ofertas">
+          <a class="nav-link" href="{{ url('administracion/ofertas') }}">
+            <i class="fe fe-gift fe-16"></i>
+            <span class="ml-3 item-text">Ofertas</span>
+          </a>
+        </li>
+        <li class="nav-item w-100 " id="proveedores">
+          <a class="nav-link" href="{{ url('administracion/proveedores') }}">
+            <i class="fe fe-box fe-16"></i>
+            <span class="ml-3 item-text">Proveedores</span>
+          </a>
+        </li>
+
+      </ul>
+     
+    </nav>
+  </aside>
