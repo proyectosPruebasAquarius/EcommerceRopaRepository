@@ -23,22 +23,12 @@ Route::prefix('administracion')->group(function () {
     });
     Route::get('/categorias','CategoriaController@index');
     Route::get('/sub-categorias', 'CategoriaController@indexSub');
-    Route::get('/marcas', function () {
-        return view('backend.marcas');
-    });
+    Route::get('/marcas',  'CategoriaController@indexMarca');
+    Route::get('/estilos', 'CategoriaController@indexEstilo');
+    Route::get('/colores', 'CategoriaController@indexColor');
+    Route::get('/tallas', 'CategoriaController@indexTalla');
 
-    Route::get('/colores', function () {
-        return view('backend.colores');
-    });
-    Route::get('/tallas', function () {
-        return view('backend.tallas');
-    });
+    Route::get('/ofertas', 'CategoriaController@indexOferta');
 
-    Route::get('/ofertas', function () {
-        return view('backend.ofertas');
-    });
-
-    Route::get('/proveedores', function () {
-        return view('backend.proveedores');
-    });
+    Route::get('/proveedores','CategoriaController@indexProveedor');
 });

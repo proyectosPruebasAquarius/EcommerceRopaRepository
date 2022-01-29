@@ -1,23 +1,18 @@
 <?php
 
 namespace App\Http\Livewire\Backend;
-
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
-use App\Models\Categoria;
-
-class CategoriaComponent extends Component
+use App\Models\Oferta;
+class OfertaComponent extends Component
 {
     use LivewireAlert;
+    public $nombre,$id_oferta,$estado;
+    protected $listeners = ['resetNamesOferta' => 'resetInput','asignOferta' =>'asignOferta','dropByStateOferta' => 'dropByState'];
 
-
-    public $nombre;
-    public $id_categoria;
-    public $estado;
-    protected $listeners = ['resetNamesCat' => 'resetInput','asignCategoria' =>'asignCategoria','dropByStateCategoria' => 'dropByState'];
 
     protected $rules = [
-        'nombre' => 'required|min:4|max:100',
+        'nombre' => 'required|min:1|max:100',
         
     ];
     protected $messages =[
@@ -25,8 +20,6 @@ class CategoriaComponent extends Component
         'nombre.min' => 'El Nombre debe contener un mínimo de :min caracteres',
         'nombre.max' => 'El Nombre debe contener un máximo de :max caracteres'
     ];
-   
-
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
@@ -36,55 +29,56 @@ class CategoriaComponent extends Component
     {
         $this->resetErrorBag();
         $this->resetValidation();
-        $this->reset(['nombre','id_categoria','estado']);
+        $this->reset(['nombre','id_oferta','estado']);
     }
-    public function asignCategoria($categoria)
+
+    public function asignOferta($oferta)
     {
-        $this->id_categoria = $categoria['id_categoria'];
-        $this->nombre = $categoria['nombre'];
-        $this->estado = $categoria['estado'];
+        $this->id_oferta = $oferta['id_oferta'];
+        $this->nombre = $oferta['nombre'];
+        $this->estado = $oferta['estado'];
     }
 
     public function createData()
     {
         $this->validate();
  
-        if ($this->id_categoria) {
+        if ($this->id_oferta) {
             try {
                
-                Categoria::where('id',$this->id_categoria)->update([
+                Oferta::where('id',$this->id_oferta)->update([
                     'nombre' => $this->nombre,
                     'estado' => $this->estado
                 ]);
-                session(['alert' => ['type' => 'success', 'message' => 'Categoria Actualizada con éxito.','position' =>'center']]); 
-                return redirect()->to('/administracion/categorias');
+                session(['alert' => ['type' => 'success', 'message' => 'Oferta Actualizada con éxito.','position' =>'center']]); 
+                return redirect()->to('/administracion/ofertas');
                 $this->dispatchBrowserEvent('closeModal'); 
             } catch (\Throwable $th) {
                 $this->dispatchBrowserEvent('closeModal'); 
                 session(['alert' => ['type' => 'error', 'message' => 'Ocurrio un Error.','position' =>'center']]);
-                return redirect()->to('administracion/categorias');
+                return redirect()->to('administracion/ofertas');
             }
         } else {
             try {
-                $categoria = new Categoria;
-                $categoria->nombre = $this->nombre;
-                $categoria->save();
-                session(['alert' => ['type' => 'success', 'message' => 'Categoria Guardada con éxito.','position' =>'center']]); 
-                return redirect()->to('/administracion/categorias');
+                $oferta = new Oferta;
+                $oferta->nombre = $this->nombre;
+                $oferta->save();
+                session(['alert' => ['type' => 'success', 'message' => 'Oferta Guardada con éxito.','position' =>'center']]); 
+                return redirect()->to('/administracion/ofertas');
                 $this->dispatchBrowserEvent('closeModal'); 
             } catch (\Throwable $th) {
                 $this->dispatchBrowserEvent('closeModal'); 
                 session(['alert' => ['type' => 'error', 'message' => 'Ocurrio un Error.','position' =>'center']]);
-                return redirect()->to('administracion/categorias');
+                return redirect()->to('administracion/ofertas');
             }
         }                              
     }
     public function dropByState($id)
     {
         try {
-            Categoria::where('id',$id)->update(['estado' => 0]);               
-            session(['alert' => ['type' => 'success', 'message' => 'Categoria eliminada con éxito.']]);
-            return redirect()->to('administracion/categorias');
+            Oferta::where('id',$id)->update(['estado' => 0]);               
+            session(['alert' => ['type' => 'success', 'message' => 'Oferta desactivada con éxito.']]);
+            return redirect()->to('administracion/ofertas');
         } catch (\Exception $th) {
            
             $this->alert('error', 'Ocurrió un error porfavor intentelo mas tarde.', [
@@ -93,9 +87,8 @@ class CategoriaComponent extends Component
         }
     }
 
-
     public function render()
     {
-        return view('livewire.backend.categoria-component');
+        return view('livewire.backend.oferta-component');
     }
 }

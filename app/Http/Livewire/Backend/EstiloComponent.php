@@ -1,20 +1,15 @@
 <?php
 
 namespace App\Http\Livewire\Backend;
-
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
-use App\Models\Categoria;
-
-class CategoriaComponent extends Component
+use App\Models\Estilo;
+class EstiloComponent extends Component
 {
     use LivewireAlert;
+    public $nombre,$id_estilo,$estado;
+    protected $listeners = ['resetNamesEstilo' => 'resetInput','asignEstilo' =>'asignEstilo','dropByStateEstilo' => 'dropByState'];
 
-
-    public $nombre;
-    public $id_categoria;
-    public $estado;
-    protected $listeners = ['resetNamesCat' => 'resetInput','asignCategoria' =>'asignCategoria','dropByStateCategoria' => 'dropByState'];
 
     protected $rules = [
         'nombre' => 'required|min:4|max:100',
@@ -25,8 +20,6 @@ class CategoriaComponent extends Component
         'nombre.min' => 'El Nombre debe contener un mínimo de :min caracteres',
         'nombre.max' => 'El Nombre debe contener un máximo de :max caracteres'
     ];
-   
-
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
@@ -36,55 +29,56 @@ class CategoriaComponent extends Component
     {
         $this->resetErrorBag();
         $this->resetValidation();
-        $this->reset(['nombre','id_categoria','estado']);
+        $this->reset(['nombre','id_estilo','estado']);
     }
-    public function asignCategoria($categoria)
+
+    public function asignEstilo($estilo)
     {
-        $this->id_categoria = $categoria['id_categoria'];
-        $this->nombre = $categoria['nombre'];
-        $this->estado = $categoria['estado'];
+        $this->id_estilo = $estilo['id_estilo'];
+        $this->nombre = $estilo['nombre'];
+        $this->estado = $estilo['estado'];
     }
 
     public function createData()
     {
         $this->validate();
  
-        if ($this->id_categoria) {
+        if ($this->id_estilo) {
             try {
                
-                Categoria::where('id',$this->id_categoria)->update([
+                Estilo::where('id',$this->id_estilo)->update([
                     'nombre' => $this->nombre,
                     'estado' => $this->estado
                 ]);
-                session(['alert' => ['type' => 'success', 'message' => 'Categoria Actualizada con éxito.','position' =>'center']]); 
-                return redirect()->to('/administracion/categorias');
+                session(['alert' => ['type' => 'success', 'message' => 'Estilo Actualizado con éxito.','position' =>'center']]); 
+                return redirect()->to('/administracion/estilos');
                 $this->dispatchBrowserEvent('closeModal'); 
             } catch (\Throwable $th) {
                 $this->dispatchBrowserEvent('closeModal'); 
                 session(['alert' => ['type' => 'error', 'message' => 'Ocurrio un Error.','position' =>'center']]);
-                return redirect()->to('administracion/categorias');
+                return redirect()->to('administracion/estilos');
             }
         } else {
             try {
-                $categoria = new Categoria;
-                $categoria->nombre = $this->nombre;
-                $categoria->save();
-                session(['alert' => ['type' => 'success', 'message' => 'Categoria Guardada con éxito.','position' =>'center']]); 
-                return redirect()->to('/administracion/categorias');
+                $estilo = new Estilo;
+                $estilo->nombre = $this->nombre;
+                $estilo->save();
+                session(['alert' => ['type' => 'success', 'message' => 'Estilo Guardado con éxito.','position' =>'center']]); 
+                return redirect()->to('/administracion/estilos');
                 $this->dispatchBrowserEvent('closeModal'); 
             } catch (\Throwable $th) {
                 $this->dispatchBrowserEvent('closeModal'); 
                 session(['alert' => ['type' => 'error', 'message' => 'Ocurrio un Error.','position' =>'center']]);
-                return redirect()->to('administracion/categorias');
+                return redirect()->to('administracion/estilos');
             }
         }                              
     }
     public function dropByState($id)
     {
         try {
-            Categoria::where('id',$id)->update(['estado' => 0]);               
-            session(['alert' => ['type' => 'success', 'message' => 'Categoria eliminada con éxito.']]);
-            return redirect()->to('administracion/categorias');
+            Estilo::where('id',$id)->update(['estado' => 0]);               
+            session(['alert' => ['type' => 'success', 'message' => 'Estilo desactivado con éxito.']]);
+            return redirect()->to('administracion/estilos');
         } catch (\Exception $th) {
            
             $this->alert('error', 'Ocurrió un error porfavor intentelo mas tarde.', [
@@ -92,10 +86,8 @@ class CategoriaComponent extends Component
             ]);
         }
     }
-
-
     public function render()
     {
-        return view('livewire.backend.categoria-component');
+        return view('livewire.backend.estilo-component');
     }
 }

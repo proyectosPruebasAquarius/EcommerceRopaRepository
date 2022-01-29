@@ -1,23 +1,18 @@
 <?php
 
 namespace App\Http\Livewire\Backend;
-
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
-use App\Models\Categoria;
-
-class CategoriaComponent extends Component
+use App\Models\Color;
+class ColorComponent extends Component
 {
-    use LivewireAlert;
 
+    public $nombre,$id_color,$estado;
+    protected $listeners = ['resetNamesTal' => 'resetInput','asignColor' =>'asignColor','dropByStateColor' => 'dropByState'];
 
-    public $nombre;
-    public $id_categoria;
-    public $estado;
-    protected $listeners = ['resetNamesCat' => 'resetInput','asignCategoria' =>'asignCategoria','dropByStateCategoria' => 'dropByState'];
 
     protected $rules = [
-        'nombre' => 'required|min:4|max:100',
+        'nombre' => 'required|min:3|max:100',
         
     ];
     protected $messages =[
@@ -25,8 +20,6 @@ class CategoriaComponent extends Component
         'nombre.min' => 'El Nombre debe contener un mínimo de :min caracteres',
         'nombre.max' => 'El Nombre debe contener un máximo de :max caracteres'
     ];
-   
-
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
@@ -36,55 +29,56 @@ class CategoriaComponent extends Component
     {
         $this->resetErrorBag();
         $this->resetValidation();
-        $this->reset(['nombre','id_categoria','estado']);
+        $this->reset(['nombre','id_color','estado']);
     }
-    public function asignCategoria($categoria)
+
+    public function asignColor($color)
     {
-        $this->id_categoria = $categoria['id_categoria'];
-        $this->nombre = $categoria['nombre'];
-        $this->estado = $categoria['estado'];
+        $this->id_color = $color['id_color'];
+        $this->nombre = $color['nombre'];
+        $this->estado = $color['estado'];
     }
 
     public function createData()
     {
         $this->validate();
  
-        if ($this->id_categoria) {
+        if ($this->id_color) {
             try {
                
-                Categoria::where('id',$this->id_categoria)->update([
+                Color::where('id',$this->id_color)->update([
                     'nombre' => $this->nombre,
                     'estado' => $this->estado
                 ]);
-                session(['alert' => ['type' => 'success', 'message' => 'Categoria Actualizada con éxito.','position' =>'center']]); 
-                return redirect()->to('/administracion/categorias');
+                session(['alert' => ['type' => 'success', 'message' => 'Color Actualizado con éxito.','position' =>'center']]); 
+                return redirect()->to('/administracion/colores');
                 $this->dispatchBrowserEvent('closeModal'); 
             } catch (\Throwable $th) {
                 $this->dispatchBrowserEvent('closeModal'); 
                 session(['alert' => ['type' => 'error', 'message' => 'Ocurrio un Error.','position' =>'center']]);
-                return redirect()->to('administracion/categorias');
+                return redirect()->to('administracion/colores');
             }
         } else {
             try {
-                $categoria = new Categoria;
-                $categoria->nombre = $this->nombre;
-                $categoria->save();
-                session(['alert' => ['type' => 'success', 'message' => 'Categoria Guardada con éxito.','position' =>'center']]); 
-                return redirect()->to('/administracion/categorias');
+                $color = new Color;
+                $color->nombre = $this->nombre;
+                $color->save();
+                session(['alert' => ['type' => 'success', 'message' => 'Color Guardado con éxito.','position' =>'center']]); 
+                return redirect()->to('/administracion/colores');
                 $this->dispatchBrowserEvent('closeModal'); 
             } catch (\Throwable $th) {
                 $this->dispatchBrowserEvent('closeModal'); 
                 session(['alert' => ['type' => 'error', 'message' => 'Ocurrio un Error.','position' =>'center']]);
-                return redirect()->to('administracion/categorias');
+                return redirect()->to('administracion/colores');
             }
         }                              
     }
     public function dropByState($id)
     {
         try {
-            Categoria::where('id',$id)->update(['estado' => 0]);               
-            session(['alert' => ['type' => 'success', 'message' => 'Categoria eliminada con éxito.']]);
-            return redirect()->to('administracion/categorias');
+            Color::where('id',$id)->update(['estado' => 0]);               
+            session(['alert' => ['type' => 'success', 'message' => 'Color desactivado con éxito.']]);
+            return redirect()->to('administracion/colores');
         } catch (\Exception $th) {
            
             $this->alert('error', 'Ocurrió un error porfavor intentelo mas tarde.', [
@@ -96,6 +90,6 @@ class CategoriaComponent extends Component
 
     public function render()
     {
-        return view('livewire.backend.categoria-component');
+        return view('livewire.backend.color-component');
     }
 }

@@ -4,20 +4,16 @@ namespace App\Http\Livewire\Backend;
 
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
-use App\Models\Categoria;
-
-class CategoriaComponent extends Component
+use App\Models\Talla;
+class TallaComponent extends Component
 {
     use LivewireAlert;
+    public $nombre,$id_talla,$estado;
+    protected $listeners = ['resetNamesTal' => 'resetInput','asignTalla' =>'asignTalla','dropByStateTalla' => 'dropByState'];
 
-
-    public $nombre;
-    public $id_categoria;
-    public $estado;
-    protected $listeners = ['resetNamesCat' => 'resetInput','asignCategoria' =>'asignCategoria','dropByStateCategoria' => 'dropByState'];
 
     protected $rules = [
-        'nombre' => 'required|min:4|max:100',
+        'nombre' => 'required|min:1|max:100',
         
     ];
     protected $messages =[
@@ -25,8 +21,6 @@ class CategoriaComponent extends Component
         'nombre.min' => 'El Nombre debe contener un mínimo de :min caracteres',
         'nombre.max' => 'El Nombre debe contener un máximo de :max caracteres'
     ];
-   
-
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
@@ -36,55 +30,56 @@ class CategoriaComponent extends Component
     {
         $this->resetErrorBag();
         $this->resetValidation();
-        $this->reset(['nombre','id_categoria','estado']);
+        $this->reset(['nombre','id_talla','estado']);
     }
-    public function asignCategoria($categoria)
+
+    public function asignTalla($talla)
     {
-        $this->id_categoria = $categoria['id_categoria'];
-        $this->nombre = $categoria['nombre'];
-        $this->estado = $categoria['estado'];
+        $this->id_talla = $talla['id_talla'];
+        $this->nombre = $talla['nombre'];
+        $this->estado = $talla['estado'];
     }
 
     public function createData()
     {
         $this->validate();
  
-        if ($this->id_categoria) {
+        if ($this->id_talla) {
             try {
                
-                Categoria::where('id',$this->id_categoria)->update([
+                Talla::where('id',$this->id_talla)->update([
                     'nombre' => $this->nombre,
                     'estado' => $this->estado
                 ]);
-                session(['alert' => ['type' => 'success', 'message' => 'Categoria Actualizada con éxito.','position' =>'center']]); 
-                return redirect()->to('/administracion/categorias');
+                session(['alert' => ['type' => 'success', 'message' => 'Talla Actualizada con éxito.','position' =>'center']]); 
+                return redirect()->to('/administracion/tallas');
                 $this->dispatchBrowserEvent('closeModal'); 
             } catch (\Throwable $th) {
                 $this->dispatchBrowserEvent('closeModal'); 
                 session(['alert' => ['type' => 'error', 'message' => 'Ocurrio un Error.','position' =>'center']]);
-                return redirect()->to('administracion/categorias');
+                return redirect()->to('administracion/tallas');
             }
         } else {
             try {
-                $categoria = new Categoria;
-                $categoria->nombre = $this->nombre;
-                $categoria->save();
-                session(['alert' => ['type' => 'success', 'message' => 'Categoria Guardada con éxito.','position' =>'center']]); 
-                return redirect()->to('/administracion/categorias');
+                $talla = new Talla;
+                $talla->nombre = $this->nombre;
+                $talla->save();
+                session(['alert' => ['type' => 'success', 'message' => 'Talla Guardada con éxito.','position' =>'center']]); 
+                return redirect()->to('/administracion/tallas');
                 $this->dispatchBrowserEvent('closeModal'); 
             } catch (\Throwable $th) {
                 $this->dispatchBrowserEvent('closeModal'); 
                 session(['alert' => ['type' => 'error', 'message' => 'Ocurrio un Error.','position' =>'center']]);
-                return redirect()->to('administracion/categorias');
+                return redirect()->to('administracion/tallas');
             }
         }                              
     }
     public function dropByState($id)
     {
         try {
-            Categoria::where('id',$id)->update(['estado' => 0]);               
-            session(['alert' => ['type' => 'success', 'message' => 'Categoria eliminada con éxito.']]);
-            return redirect()->to('administracion/categorias');
+            Talla::where('id',$id)->update(['estado' => 0]);               
+            session(['alert' => ['type' => 'success', 'message' => 'Talla desactivada con éxito.']]);
+            return redirect()->to('administracion/tallas');
         } catch (\Exception $th) {
            
             $this->alert('error', 'Ocurrió un error porfavor intentelo mas tarde.', [
@@ -93,9 +88,8 @@ class CategoriaComponent extends Component
         }
     }
 
-
     public function render()
     {
-        return view('livewire.backend.categoria-component');
+        return view('livewire.backend.talla-component');
     }
 }
