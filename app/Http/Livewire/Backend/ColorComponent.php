@@ -7,16 +7,17 @@ use App\Models\Color;
 class ColorComponent extends Component
 {
 
-    public $nombre,$id_color,$estado;
+    public $nombre,$id_color,$estado,$color;
     protected $listeners = ['resetNamesTal' => 'resetInput','asignColor' =>'asignColor','dropByStateColor' => 'dropByState'];
 
 
     protected $rules = [
         'nombre' => 'required|min:3|max:100',
-        
+        'color' => 'required'
     ];
     protected $messages =[
         'nombre.required' => 'El Nombre es Obligatorio',
+        'nombre.required' => 'El Color es Obligatorio',
         'nombre.min' => 'El Nombre debe contener un mínimo de :min caracteres',
         'nombre.max' => 'El Nombre debe contener un máximo de :max caracteres'
     ];
@@ -29,13 +30,14 @@ class ColorComponent extends Component
     {
         $this->resetErrorBag();
         $this->resetValidation();
-        $this->reset(['nombre','id_color','estado']);
+        $this->reset(['nombre','id_color','estado','color']);
     }
 
     public function asignColor($color)
     {
         $this->id_color = $color['id_color'];
         $this->nombre = $color['nombre'];
+        $this->color = $color['color'];
         $this->estado = $color['estado'];
     }
 
@@ -48,7 +50,8 @@ class ColorComponent extends Component
                
                 Color::where('id',$this->id_color)->update([
                     'nombre' => $this->nombre,
-                    'estado' => $this->estado
+                    'estado' => $this->estado,
+                    'color' => $this->color
                 ]);
                 session(['alert' => ['type' => 'success', 'message' => 'Color Actualizado con éxito.','position' =>'center']]); 
                 return redirect()->to('/administracion/colores');
@@ -62,6 +65,7 @@ class ColorComponent extends Component
             try {
                 $color = new Color;
                 $color->nombre = $this->nombre;
+                $color->color = $this->color;
                 $color->save();
                 session(['alert' => ['type' => 'success', 'message' => 'Color Guardado con éxito.','position' =>'center']]); 
                 return redirect()->to('/administracion/colores');

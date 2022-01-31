@@ -73,6 +73,18 @@
           </a>
         </li>
 
+        <li class="nav-item w-100 " id="metodos">
+          <a class="nav-link" href="{{ url('administracion/metodos-pagos') }}">
+            <i class="fe fe-credit-card fe-16"></i>
+            <span class="ml-3 item-text">Metos de Pagos</span>
+          </a>
+        </li>
+        <li class="nav-item w-100 " id="productos">
+          <a class="nav-link" href="{{ url('administracion/productos') }}">
+            <i class="fe fe-shopping-bag fe-16"></i>
+            <span class="ml-3 item-text">Productos</span>
+          </a>
+        </li>
       </ul>
      
     </nav>

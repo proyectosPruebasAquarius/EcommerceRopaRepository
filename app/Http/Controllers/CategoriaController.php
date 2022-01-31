@@ -11,6 +11,8 @@ use App\Models\Estilo;
 use App\Models\Marca;
 use App\Models\Oferta;
 use App\Models\Proveedor;
+use App\Models\MetodoPago;
+use App\Models\Producto;
 class CategoriaController extends Controller
 {
     public function index()
@@ -39,7 +41,7 @@ class CategoriaController extends Controller
 
     public function indexColor()
     {
-        $colores = Color::select('nombre','id as id_color','estado')->get();
+        $colores = Color::select('nombre','id as id_color','estado','color')->get();
 
         return view('backend.colores')->with('colores', $colores);
     }
@@ -72,5 +74,19 @@ class CategoriaController extends Controller
         $proveedores = Proveedor::select('nombre','id as id_proveedor','estado','nombre_contacto','tel_contacto','telefono','direccion')->get();
 
         return view('backend.proveedores')->with('proveedores', $proveedores);
+    }
+
+
+    public function indexMetodo()
+    {
+        $metodos = MetodoPago::select('nombre','id as id_metodo','estado','qr','numero','cuenta_asociado')->get();
+
+        return view('backend.metodos-pagos')->with('metodos', $metodos);
+    }
+    public function indexProducto()
+    {
+        //$metodos = MetodoPago::select('nombre','id as id_metodo','estado','qr','numero','cuenta_asociado')->get();
+
+        return view('backend.productos');
     }
 }

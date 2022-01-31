@@ -133,6 +133,7 @@
       </main> <!-- main -->
     </div> <!-- .wrapper -->
     @livewireScripts
+    <script src="{{ asset('backend/js/activeClass.js') }}"></script>
     <script src="{{ asset('backend/js/jquery.min.js') }}"></script>
     <script src="{{ asset('backend/js/popper.min.js') }}"></script>
     <script src="{{ asset('backend/js/moment.min.js') }}"></script>

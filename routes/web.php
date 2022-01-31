@@ -27,8 +27,8 @@ Route::prefix('administracion')->group(function () {
     Route::get('/estilos', 'CategoriaController@indexEstilo');
     Route::get('/colores', 'CategoriaController@indexColor');
     Route::get('/tallas', 'CategoriaController@indexTalla');
-
+    Route::get('/productos', 'CategoriaController@indexProducto');
     Route::get('/ofertas', 'CategoriaController@indexOferta');
-
+    Route::get('/metodos-pagos', 'CategoriaController@indexMetodo');
     Route::get('/proveedores','CategoriaController@indexProveedor');
 });
