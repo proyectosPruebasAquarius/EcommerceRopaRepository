@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class DetalleColor extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'detalles_colores';
     protected $primaryKey = 'id';
     protected $fillable = [

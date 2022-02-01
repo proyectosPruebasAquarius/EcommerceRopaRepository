@@ -89,12 +89,12 @@ class MetodoPagoComponent extends Component
                    
                     
                 }else {
-                    foreach(json_decode($this->oldImg) as $img) {
+                   /* foreach(json_decode($this->oldImg) as $img) {
                         $image_path = public_path("storage/images/metodos_pagos/".$img);
                         if (file_exists($image_path)) {
                                 File::delete($image_path);
                         }
-                    }
+                    }*/
                     $numItems = count($this->qr);
                     $i = 0;
                     foreach ($this->qr as $photo) {
