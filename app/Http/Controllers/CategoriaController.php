@@ -13,6 +13,7 @@ use App\Models\Oferta;
 use App\Models\Proveedor;
 use App\Models\MetodoPago;
 use App\Models\Producto;
+use App\Models\Inventario;
 class CategoriaController extends Controller
 {
     public function index()
@@ -87,11 +88,18 @@ class CategoriaController extends Controller
     {
         $productos = Producto::join('proveedores','proveedores.id','=','productos.id_proveedor')->join('marcas','marcas.id','=','productos.id_marca')->join('estilos','estilos.id','=','productos.id_estilo')
         ->select('productos.id as id_producto','productos.nombre','productos.descripcion','productos.cod','productos.imagen','productos.estado','productos.id_detalle_producto','marcas.nombre as marca_nombre','productos.id_marca as marca'
-        ,'productos.id_estilo as estilo','estilos.nombre as estilo_nombre','proveedores.id as proveedor','proveedores.nombre as proveedor_nombre')->get();
-
-
-        //$metodos = MetodoPago::select('nombre','id as id_metodo','estado','qr','numero','cuenta_asociado')->get();
-
+        ,'productos.id_estilo as estilo','estilos.nombre as estilo_nombre','proveedores.id as proveedor','proveedores.nombre as proveedor_nombre')->get();       
         return view('backend.productos')->with('productos', $productos);
     }
+
+    public function indexInventario()
+    {
+        $inventarios = Inventario::join('productos','productos.id','=','inventarios.id_producto')->leftJoin('ofertas','ofertas.id','=','inventarios.id_oferta')
+        ->select('precio_compra','precio_venta','precio_descuento','inventarios.id as id_inventario','inventarios.estado','stock','min_stock','productos.nombre as producto_nombre','ofertas.nombre as descuento_nombre'
+        ,'productos.id as producto','ofertas.id as descuento','productos.cod')->get();
+
+        return view('backend.inventarios')->with('inventarios', $inventarios);
+    }
+
+
 }

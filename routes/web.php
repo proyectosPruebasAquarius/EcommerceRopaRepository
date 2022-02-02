@@ -31,4 +31,5 @@ Route::prefix('administracion')->group(function () {
     Route::get('/ofertas', 'CategoriaController@indexOferta');
     Route::get('/metodos-pagos', 'CategoriaController@indexMetodo');
     Route::get('/proveedores','CategoriaController@indexProveedor');
+    Route::get('/inventarios','CategoriaController@indexInventario');
 });

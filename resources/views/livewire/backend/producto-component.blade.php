@@ -1,7 +1,7 @@
 <div>  
     <div class="modal fade" id="productoModal" tabindex="-1" aria-labelledby="productoModalLabel" aria-hidden="true"
         wire:ignore.self>
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title col-11 text-center" id="productoModalLabel">
@@ -239,62 +239,6 @@
         </div>
     </div>
 </div>
-
-
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true" wire:ignore.self>
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-center col-11" id="editModalLabel">Actualizacion</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-         <form wire:submit.prevent="updateColor">
-            <div class="form-group mb-2">
-                <label for="updateColor">Color/es</label>
-                <select  id="updateColor" class="form-control" wire:model="updateColor" class="form-control @error('updateColor')
-                        is-invalid
-                        @enderror">
-                    <option selected style="display: none">Selecione el Color</option>
-
-
-                    @forelse ($colores as $col)
-                    <option value="{{ $col->id }}">
-                       
-                            {{ $col->nombre }}
-                        
-                        
-                    </option>
-                    @empty
-                    <option>no hay opciones disponibles</option>
-                    @endforelse
-                </select>
-                @error('updateColor') <span class="text-danger">{{ $message }}</span> @enderror
-            </div>
-         </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

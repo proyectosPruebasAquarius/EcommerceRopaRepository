@@ -85,6 +85,13 @@
             <span class="ml-3 item-text">Productos</span>
           </a>
         </li>
+
+        <li class="nav-item w-100 " id="inventarios">
+          <a class="nav-link" href="{{ url('administracion/inventarios') }}">
+            <i class="fe fe-book fe-16"></i>
+            <span class="ml-3 item-text">Inventarios</span>
+          </a>
+        </li>
       </ul>
      
     </nav>

@@ -43,14 +43,9 @@ class ProductoComponent extends Component
     $sub_categorias = [],
     $subcat,
     $oldImg,
-    $estado,
-    $updateColor,
-    $updateTalla
-    
-    
-    ;
+    $estado;
 
-    protected $listeners = ['resetNamesProducto' => 'resetInput', 'asignProducto' => 'asignProducto', 'dropByStateProducto' => 'dropByState', 'asignColor' => 'asignColor'];
+    protected $listeners = ['resetNamesProducto' => 'resetInput', 'asignProducto' => 'asignProducto', 'dropByStateProducto' => 'dropByState'];
 
     protected $rules = [
         'cod' => 'required|min:4|max:100',
@@ -309,19 +304,11 @@ class ProductoComponent extends Component
         $this->categorias = Categoria::where('estado', 1)->select('nombre', 'id')->get();
         $this->sub_categorias = SubCategoria::where('estado', 1)->select('nombre', 'id')->get();
         $this->proveedores = Proveedor::where('estado', 1)->select('nombre', 'id')->get();
+        
         return view('livewire.backend.producto-component');
     }
 
-    public function asignColor($color)
-    {      
-        $this->updateColor = $color['updateColor'];
-        $this->colores = Color::where('estado', 1)->select('nombre', 'id')->get();
-    }
-
-    public function updateColor()
-    {
-        
-    }
+   
 
 
 
