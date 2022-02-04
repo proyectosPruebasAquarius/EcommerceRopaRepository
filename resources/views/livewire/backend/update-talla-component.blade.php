@@ -12,7 +12,7 @@
              <form >
                 <div class="form-group text-center  mb-2">
                     <input type="hidden" wire:model="detalleColor">
-                    <label for="oldColorName">Color Selecionado</label>
+                    <label for="oldColorName">Talla Seleccionada</label>
                     <br>
     
                    <label class="form-label">{{ $oldTalla }}</label> &nbsp;

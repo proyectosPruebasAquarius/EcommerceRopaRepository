@@ -10,7 +10,9 @@ const Estilos = document.getElementById('estilos');
 const Tallas = document.getElementById('tallas');
 const Ofertas = document.getElementById('ofertas');
 const Proveedores = document.getElementById('proveedores');
-
+const Metodos = document.getElementById('metodos');
+const Productos = document.getElementById('productos');
+const Inventarios = document.getElementById('inventarios');
 
 switch (URLactual) {
     case '/administracion':
@@ -43,6 +45,17 @@ switch (URLactual) {
 
     case '/administracion/proveedores':
         Proveedores.classList.add('active')
+        break;
+
+    case '/administracion/metodos-pagos':
+        Metodos.classList.add('active')
+        break;
+    case '/administracion/productos':
+        Productos.classList.add('active')
+        break;
+
+    case '/administracion/inventarios':
+        Inventarios.classList.add('active')
         break;
 
 }

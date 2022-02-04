@@ -117,9 +117,10 @@ class InventarioComponent extends Component
                 
                 $inventario->stock = $this->stock;
                 $inventario->id_producto = $this->producto;
-                $inventario->id_oferta = $this->descuento;
+                
                 $inventario->min_stock = $this->stock_min;
-                if ($this->descuento != null) {
+                if ($this->descuento != 0) {
+                    $inventario->id_oferta = $this->descuento;
                     $oferta = Oferta::select('nombre')->where('id', '=', $this->descuento)->get();
                     $descuento = $oferta[0]->nombre;
                     function porcentaje($cantidad,$porciento,$decimales){
@@ -156,7 +157,8 @@ class InventarioComponent extends Component
 
     public function render()
     {
-        $this->productos = Producto::where('estado',1)->select('id','cod')->get();
+        $productsUsed = Inventario::where('estado',1)->select('id_producto')->get();
+        $this->productos = Producto::where('estado',1)->select('id','cod')->whereNotIn('id',$productsUsed)->get();
         $this->ofertas = Oferta::where('estado',1)->select('nombre','id')->get();
         return view('livewire.backend.inventario-component');
     }

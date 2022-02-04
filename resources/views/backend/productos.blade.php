@@ -31,6 +31,7 @@
 
                   <th class="text-start">COD</th>
                   <th class="text-start">Nombre</th>
+                  <th class="text-center">Descripción</th>
                   <th class="text-center">Imagenes</th>
                   <th class="text-start">Categoria y Sub Categoria</th>
                   <th class="text-center">Tallas</th>
@@ -65,7 +66,36 @@
                 <tr>
                 <td class="text-start">{{ $product->cod }}</td>
                 <td class="text-start">{{ $product->nombre }}</td>
-                
+                <td class="text-center">
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#descModal{{ $pro }}">
+                    Descripción
+                  </button>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="descModal{{ $pro }}" tabindex="-1" aria-labelledby="descModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="descModalLabel">Descripción del Producto: {{ $product->nombre }}</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <p>
+                            {{ $product->descripcion }}
+                          </p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                         
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
 
                 <td class="text-center">                
                   <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#imgModal{{ $pro }}">

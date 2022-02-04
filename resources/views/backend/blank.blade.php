@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/icon" href="{{ asset('favicon.ico') }}">
+    
     <title>Administracion - @yield('title')</title>
     <!-- Simple bar CSS -->
     <link rel="stylesheet" href="{{ asset('backend/css/simplebar.css') }}">
@@ -15,16 +15,21 @@
     @livewireStyles
     <link rel="stylesheet" href="{{ asset('backend/css/feather.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('backend/css/dropzone.css') }}">
+    <!--<link rel="stylesheet" href="{{ asset('backend/css/dropzone.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/css/uppy.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/css/jquery.steps.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/css/jquery.timepicker.css') }}">
-    <link rel="stylesheet" href="{{ asset('backend/css/quill.snow.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/css/quill.snow.css') }}">-->
     <!-- Date Range Picker CSS -->
-    <link rel="stylesheet" href="{{ asset('backend/css/daterangepicker.css') }}">
+    <!--<link rel="stylesheet" href="{{ asset('backend/css/daterangepicker.css') }}">-->
     <!-- App CSS -->
     <link rel="stylesheet" href="{{ asset('backend/css/app-light.css') }}" id="lightTheme">
     <link rel="stylesheet" href="{{ asset('backend/css/app-dark.css') }}" id="darkTheme" disabled>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('backend/assets/images/favicons/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('backend/assets/images/favicons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('backend/assets/images/favicons/favicon-16x16.png') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('backend/assets/images/favicons/favicon.ico') }}">
    
     @stack('styles')
   </head>
@@ -55,7 +60,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="avatar avatar-sm mt-2">
-                <img src="{{ asset('backend/assets/avatars/face-1.jpg') }}" alt="..." class="avatar-img rounded-circle">
+                <img src="{{ asset('backend/assets/avatars/admin.png') }}" alt="..." class="avatar-img rounded-circle">
               </span>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
@@ -139,33 +144,20 @@
     <script src="{{ asset('backend/js/moment.min.js') }}"></script>
     <script src="{{ asset('backend/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('backend/js/simplebar.min.js') }}"></script>
-    <script src='{{ asset('backend/js/daterangepicker.js') }}'></script>
-    <script src='{{ asset('backend/js/jquery.stickOnScroll.js') }}'></script>
+    
     <script src="{{ asset('backend/js/tinycolor-min.js') }}"></script>
     <script src="{{ asset('backend/js/config.js') }}"></script>
-    <script src="{{ asset('backend/js/d3.min.js') }}"></script>
-    <script src="{{ asset('backend/js/topojson.min.js') }}"></script>
-    <script src="{{ asset('backend/js/datamaps.all.min.js') }}"></script>
-    <script src="{{ asset('backend/js/datamaps-zoomto.js') }}"></script>
-    <script src="{{ asset('backend/js/datamaps.custom.js') }}"></script>
+    
     <script src="{{ asset('backend/js/Chart.min.js') }}"></script>
     <script>
       /* defind global options */
       Chart.defaults.global.defaultFontFamily = base.defaultFontFamily;
       Chart.defaults.global.defaultFontColor = colors.mutedColor;
     </script>
-    <script src="{{ asset('backend/js/gauge.min.js') }}"></script>
-    <script src="{{ asset('backend/js/jquery.sparkline.min.js') }}"></script>
+    
     <script src="{{ asset('backend/js/apexcharts.min.js') }}"></script>
     <script src="{{ asset('backend/js/apexcharts.custom.js') }}"></script>
-    <script src='{{ asset('backend/js/jquery.mask.min.js') }}'></script>
-    <script src='{{ asset('backend/js/select2.min.js') }}'></script>
-    <script src='{{ asset('backend/js/jquery.steps.min.js') }}'></script>
-    <script src='{{ asset('backend/js/jquery.validate.min.js') }}'></script>
-    <script src='{{ asset('backend/js/jquery.timepicker.js') }}'></script>
-    <script src='{{ asset('backend/js/dropzone.min.js') }}'></script>
-    <script src='{{ asset('backend/js/uppy.min.js') }}'></script>
-    <script src='{{ asset('backend/js/quill.min.js') }}'></script>
+    
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @stack('scripts')
     <x-livewire-alert::scripts />

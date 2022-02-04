@@ -43,7 +43,8 @@ class ProductoComponent extends Component
     $sub_categorias = [],
     $subcat,
     $oldImg,
-    $estado;
+    $estado,
+    $oldEstado;
 
     protected $listeners = ['resetNamesProducto' => 'resetInput', 'asignProducto' => 'asignProducto', 'dropByStateProducto' => 'dropByState'];
 
@@ -87,6 +88,7 @@ class ProductoComponent extends Component
 
     public function asignProducto($producto)
     {
+        $this->oldEstado= $producto['estado'];
         $this->id_producto = $producto['id_producto'];
         $this->nombre = $producto['nombre'];
         $this->estado = $producto['estado'];
