@@ -43,7 +43,7 @@
         <ul class="nav">
           <li class="nav-item">
             <a class="nav-link text-muted my-2" href="#" id="modeSwitcher" data-mode="light">
-              <i class="fe fe-sun fe-16"></i>
+              <i class="fe fe-sun fe-16"  data-toggle="tooltip" data-placement="left" title="Cambio de Tema"></i>
             </a>
           </li>
          <!-- <li class="nav-item">
@@ -52,10 +52,8 @@
             </a>
           </li>-->
           <li class="nav-item nav-notif">
-            <a class="nav-link text-muted my-2" href="./#" data-toggle="modal" data-target=".modal-notif">
-              <span class="fe fe-bell fe-16"></span>
-              <span class="dot dot-md bg-success"></span>
-            </a>
+            @livewire('backend.venta-component')
+            @livewire('backend.notificacion-component')
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -78,7 +76,7 @@
         </div> <!-- .container-fluid -->
 
 
-        @livewire('backend.notificacion-component')
+        
        <!-- <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">

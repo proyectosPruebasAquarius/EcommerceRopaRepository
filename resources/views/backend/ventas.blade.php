@@ -10,9 +10,11 @@
         <h2 class="mb-2 page-title">Listado de Ventas</h2>
         <div class="col-12 d-flex justify-content-end mt-3">
             @livewire('backend.venta-component')
-            <button type="button" class="btn  btn-primary" data-toggle="modal" data-target="#detalleVentaModal">Agregar
-                <i class="fe fe-plus fe-16"></i></button>
+            @livewire('backend.manual-venta-component')
         </div>
+
+
+
 
         <div class="row my-4">
             <!-- Small table -->
@@ -58,7 +60,7 @@
                                     @break
                                     @case(1)
                                     <td class="text-center">
-                                        <span class="badge badge-success">Aprobada</span>
+                                        <span class="badge badge-success text-white">Aprobada</span>
                                     </td>
                                     @break
                                     @case(2)
@@ -86,6 +88,14 @@
                                             <i class="fe fe-external-link fe-16 text-primary" data-toggle="tooltip"
                                                 data-placement="top" title="Detalle de la Venta"></i>
                                         </button>
+                                        @if ($venta->estado == 2)
+                                        <button type="button" class="btn" data-toggle="modal"
+                                            data-target="#manualModal"
+                                            onclick="Livewire.emit('detalleVentaManual',@js($venta->id_venta) )">
+                                            <i class="fe fe-search fe-16 text-warning" data-toggle="tooltip"
+                                                data-placement="top" title="Aprobación Manual"></i>
+                                        </button>
+                                        @endif
 
                                     </td>
                                     @endforeach
@@ -113,6 +123,9 @@
 })
 });
 </script>
+
+
+
 
 @endpush
 

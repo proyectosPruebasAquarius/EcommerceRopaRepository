@@ -15,7 +15,7 @@
                    <div class="row">
                     <div class="col-md-4 order-md-2 mb-4">
                       <h4 class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="text-muted">Productos</span>
+                        <span >Productos</span>
                         <span class="badge badge-secondary badge-pill">{{ sizeof($productosVenta) }}</span>
                       </h4>
                       <ul class="list-group mb-3">
@@ -33,12 +33,13 @@
                             
                             @endif
                             <span class="text-black">${{ $pt->precio_venta *  $pt->cantidad}}</span>
-                          </li>
+                          </li> 
+                           @endforeach
                           <li class="list-group-item d-flex justify-content-between">
                             <span>Total (USD)</span>
-                            <strong>${{ $ventas->totalVenta }}</strong>
+                            <strong>${{ $detalle_venta[0]->totalVenta }}</strong>
                           </li>
-                          @endforeach
+                        
                         
                        
                         
@@ -116,19 +117,19 @@
                         <div class="row">
                           <div class="col-md-6 mb-3">
                             <label for="cc-name">Método de Pago</label>
-                            <input type="text" class="form-control" id="cc-name" value="{{ $ventas->metodo_pago }}">
+                            <input type="text" class="form-control" id="cc-name" value="{{ $ventas->metodo_pago }}" disabled>
                            
                           </div>
                           <div class="col-md-6 mb-3">
                             <label for="cc-number">Numero de Transacción del Cliente</label>
-                            <input type="text" class="form-control" id="cc-number" value="{{ $ventas->numeroTransaccion }}">
+                            <input type="text" class="form-control" id="cc-number" value="{{ $ventas->numeroTransaccion }}" disabled>
                             
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-md-6 mb-3">
                             <label for="cc-expiration">Estado de la Venta</label>
-                            <input type="text" class="form-control" id="cc-expiration" value="@if($ventas->estadoVenta == 0)Pendiente de revisión @elseif($ventas->estadoVenta == 1)Aprobada @elseif ($ventas->estadoVenta == 2)Aprobación Manual @else Rechazada @endif">
+                            <input type="text" class="form-control" id="cc-expiration" disabled value="@if($ventas->estadoVenta == 0)Pendiente de revisión @elseif($ventas->estadoVenta == 1)Aprobada @elseif ($ventas->estadoVenta == 2)Aprobación Manual @else Rechazada @endif">
                            
                           </div>
                          
@@ -147,22 +148,44 @@
                       
                       </form>
                     </div>
-                  </div
+                  </div>
                   
                     @endforeach
                 </form>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" type="button" data-toggle="tooltip" data-placement="top" title="Aprobar venta">Aprobar</button>
+                @foreach ($detalle_venta as $d)
+                @if ($d->estadoVenta == 1 || $d->estadoVenta == 3 || $d->estadoVenta == 2)
+                    
+                @else
+                <button type="button" class="btn btn-primary" type="button" data-toggle="tooltip" data-placement="top" title="Aprobar venta" wire:click="ventaApproved(@js($d->id_venta))">Aprobar <i class="fe fe-check fe-16"></i></button>
                 
-                <button type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Rechazar venta">Rechazar</button>
+                <button type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Rechazar venta" wire:click="ventaRejected(@js($d->id_venta))">Rechazar   <i class="fe fe-x fe-16"></i></button> 
+                @endif
+                  
+                @endforeach
+               
             </div>
           </div>
         </div>
       </div>
+</div> 
 
+@push('scripts')
+<script>
+  
+   /* $('#tallaModal').on('hidden.bs.modal', function (e) {
+        Livewire.emit('resetNamesTal');
+    })*/
 
+    window.addEventListener('closeModal', event => {
+    $("#detalleVentaModal").modal('hide');  
+      
+      
+    });
 
+ 
 
-</div>
+</script>
+@endpush

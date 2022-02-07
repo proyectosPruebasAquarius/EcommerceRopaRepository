@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Categoria;
 use App\Models\Color;
 use App\Models\Estilo;
@@ -14,10 +15,13 @@ use App\Models\Proveedor;
 use App\Models\SubCategoria;
 use App\Models\Talla;
 use App\Models\Venta;
+use Illuminate\Support\Facades\Crypt;
+use DB;
 
-class CategoriaController extends Controller
+
+class IndexBackendController extends Controller
 {
-    public function index()
+    public function indexCategoria()
     {
         $categorias = Categoria::select('nombre', 'id as id_categoria', 'estado')->get();
 
@@ -104,5 +108,9 @@ class CategoriaController extends Controller
 
         return view('backend.ventas')->with('ventas', $ventas);
     }
+
+
+
+  
 
 }

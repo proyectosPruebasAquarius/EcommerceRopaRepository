@@ -7,19 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class SaleInvoice extends Notification
+class MinStock extends Notification
 {
     use Queueable;
-    private $sale;
-
+    private $inventario;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($sale)
+    public function __construct($inventario)
     {
-        $this->sale = $sale;
+       $this->inventario = $inventario;
     }
 
     /**
@@ -56,9 +55,7 @@ class SaleInvoice extends Notification
     public function toArray($notifiable)
     {
         return [
-            'venta_id' => $this->sale->id,
-            'estado' => $this->sale->estado,
-            'fecha' => $this->sale->created_at,
+            'id_inventario' => $this->inventario,
         ];
     }
 }

@@ -18,6 +18,9 @@ Route::get('/', function () {
     /* return view('frontend.blank'); */
     return view('frontend.layouts.home');
 });
+Route::get('/carrito', function () { 
+    return view('frontend.layouts.cart');
+})->middleware('cartVerify')->name('carrito');
 
 Route::get('/perfil', [App\Http\Controllers\UserController::class, 'index'])->middleware(['auth'])->name('perfil');
 
@@ -29,7 +32,9 @@ Route::get('/productos/{name}', [App\Http\Controllers\InventarioController::clas
 
 Route::get('/checkout', function () {
     return view('frontend.layouts.checkout');
-})->middleware(['auth'])->name('checkout');
+})->middleware(['auth','cartVerify'])->name('checkout');
+
+
 
 Route::get('/administracion', function () {
     return view('backend.blank');
@@ -58,17 +63,18 @@ Route::prefix('administracion')->group(function () {
     Route::get('/', function () {
         return view('backend.home');
     });
-    Route::get('/categorias','CategoriaController@index');
-    Route::get('/sub-categorias', 'CategoriaController@indexSub');
-    Route::get('/marcas',  'CategoriaController@indexMarca');
-    Route::get('/estilos', 'CategoriaController@indexEstilo');
-    Route::get('/colores', 'CategoriaController@indexColor');
-    Route::get('/tallas', 'CategoriaController@indexTalla');
-    Route::get('/productos', 'CategoriaController@indexProducto');
-    Route::get('/ofertas', 'CategoriaController@indexOferta');
-    Route::get('/metodos-pagos', 'CategoriaController@indexMetodo');
-    Route::get('/proveedores','CategoriaController@indexProveedor');
-    Route::get('/inventarios','CategoriaController@indexInventario');
-    Route::get('/ventas','CategoriaController@indexVenta');
+    Route::get('/categorias','IndexBackendController@indexCategoria');
+    Route::get('/sub-categorias', 'IndexBackendController@indexSub');
+    Route::get('/marcas',  'IndexBackendController@indexMarca');
+    Route::get('/estilos', 'IndexBackendController@indexEstilo');
+    Route::get('/colores', 'IndexBackendController@indexColor');
+    Route::get('/tallas', 'IndexBackendController@indexTalla');
+    Route::get('/productos', 'IndexBackendController@indexProducto');
+    Route::get('/ofertas', 'IndexBackendController@indexOferta');
+    Route::get('/metodos-pagos', 'IndexBackendController@indexMetodo');
+    Route::get('/proveedores','IndexBackendController@indexProveedor');
+    Route::get('/inventarios','IndexBackendController@indexInventario');
+    Route::get('/ventas','IndexBackendController@indexVenta');
+    
 });
 /*End Backend */

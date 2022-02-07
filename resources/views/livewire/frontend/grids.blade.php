@@ -193,7 +193,7 @@
                                         <h5>${{ $inventario->precio_venta }}</h5>
                                         @php
                                             $colores = \DB::table('detalles_colores')->join('colores', 'detalles_colores.id_color', '=', 'colores.id')->join('productos', 'detalles_colores.id_producto', '=', 'productos.id')
-                                            ->where('detalles_colores.id_producto', $inventario->id_producto)->select('detalles_colores.*',  'colores.nombre')->get();
+                                            ->where('detalles_colores.id_producto', $inventario->id_producto)->select('detalles_colores.*',  'colores.nombre','colores.color')->get();
                                         @endphp
                                         <div class="product__color__select">
                                             @forelse ($colores as $color)
