@@ -69,7 +69,7 @@
 
               <div class="row align-items-center">
                 <div class="col-auto">
-                  <span class="fe fe-circle fe-24"></span>
+                  <span class="fe fe-slash fe-24"></span>
                 </div>
                 <div class="col">
                   <small><strong>No hay notificaciones disponibles</strong></small>

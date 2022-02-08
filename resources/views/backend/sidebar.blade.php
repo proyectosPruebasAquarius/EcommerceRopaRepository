@@ -99,6 +99,12 @@
             <span class="ml-3 item-text">Ventas</span>
           </a>
         </li>
+        <li class="nav-item w-100 " id="pedidos">
+          <a class="nav-link" href="{{ url('administracion/pedidos') }}">
+            <i class="fe fe-truck fe-16"></i>
+            <span class="ml-3 item-text">Pedidos</span>
+          </a>
+        </li>
       </ul>
      
     </nav>

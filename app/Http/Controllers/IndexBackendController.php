@@ -15,6 +15,7 @@ use App\Models\Proveedor;
 use App\Models\SubCategoria;
 use App\Models\Talla;
 use App\Models\Venta;
+use App\Models\PedidoProveedor;
 use Illuminate\Support\Facades\Crypt;
 use DB;
 
@@ -107,6 +108,19 @@ class IndexBackendController extends Controller
             ->orderBy('ventas.id', 'ASC')->get();
 
         return view('backend.ventas')->with('ventas', $ventas);
+    }
+
+
+
+    public function indexPedido()
+    {
+        $pedidos = PedidoProveedor::join('productos','productos.id','=','pedidos_proveedores.id_producto')->join('inventarios','inventarios.id_producto','=','pedidos_proveedores.id_producto')
+        ->join('proveedores','proveedores.id','=','productos.id_proveedor')->select('productos.cod as codigo_producto','proveedores.nombre as proveedor','proveedores.direccion as direc_proveedor','proveedores.telefono as tel_proveedor',
+        'proveedores.nombre_contacto as contacto','proveedores.tel_contacto','proveedores.estado as estado_proveedor','productos.nombre as producto','pedidos_proveedores.cantidad',
+        'pedidos_proveedores.estado as estado_pedido','pedidos_proveedores.cantidad','pedidos_proveedores.fecha_entrega',
+        'pedidos_proveedores.precio as precio_compra','pedidos_proveedores.id as id_pedido','pedidos_proveedores.created_at as fecha_registro')->get();
+       
+        return view('backend.pedidos')->with('pedidos',$pedidos);
     }
 
 

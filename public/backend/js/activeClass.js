@@ -13,6 +13,8 @@ const Proveedores = document.getElementById('proveedores');
 const Metodos = document.getElementById('metodos');
 const Productos = document.getElementById('productos');
 const Inventarios = document.getElementById('inventarios');
+const Ventas = document.getElementById('ventas');
+const Pedidos = document.getElementById('pedidos');
 
 switch (URLactual) {
     case '/administracion':
@@ -56,6 +58,12 @@ switch (URLactual) {
 
     case '/administracion/inventarios':
         Inventarios.classList.add('active')
+        break;
+    case '/administracion/ventas':
+        Ventas.classList.add('active')
+        break;
+    case '/administracion/pedidos':
+        Pedidos.classList.add('active')
         break;
 
 }

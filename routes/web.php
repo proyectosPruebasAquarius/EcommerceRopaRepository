@@ -75,6 +75,7 @@ Route::prefix('administracion')->group(function () {
     Route::get('/proveedores','IndexBackendController@indexProveedor');
     Route::get('/inventarios','IndexBackendController@indexInventario');
     Route::get('/ventas','IndexBackendController@indexVenta');
+    Route::get('/pedidos','IndexBackendController@indexPedido');
     
 });
 /*End Backend */

@@ -11,6 +11,8 @@
         <div class="col-12 d-flex justify-content-end mt-3">
             @livewire('backend.venta-component')
             @livewire('backend.manual-venta-component')
+            @livewire('backend.venta-pdf-component')
+            <button type="button" class="btn  btn-primary" data-toggle="modal" data-target="#ventaPDFModal ">Detalle de Venta <i class="fe fe-file fe-16"></i></button>
         </div>
 
 
