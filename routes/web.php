@@ -59,7 +59,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 /*Backend */
-Route::prefix('administracion')->group(function () {
+Route::prefix('administracion')->middleware(['auth','typeuser'])->group(function () {
     Route::get('/', function () {
         return view('backend.home');
     });

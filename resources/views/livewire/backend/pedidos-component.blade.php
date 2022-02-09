@@ -1,5 +1,5 @@
 <div>
-    <div class="modal fade" id="pedidosModal" tabindex="-1" aria-labelledby="pedidosModalLabel" aria-hidden="true">
+    <div class="modal fade" id="pedidosModal" tabindex="-1" aria-labelledby="pedidosModalLabel" aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -10,28 +10,149 @@
               </button>
             </div>
             <div class="modal-body">
-                <form action="{{ url('admin/pedidos/pdf') }}" method="post" id="FormPDFS">
-                    @csrf
-                    @method('POST')
-                    <div class="mb-3">
-                        <label for="FechaIncio" class="form-label">Fecha de Inicio</label>
-                        <input type="date" class="form-control" id="FechaIncio"
-                            aria-describedby="emailHelp" name="fecha_inicio">
+                <form >
+                 
+                  <div class="row">
+                    <div class="col-md-2 col-12">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Código del Producto </label>
 
-                    </div>
-                    <div class="mb-3">
-                        <label for="FechaFin" class="form-label">Fecha de Fin</label>
-                        <input type="date" class="form-control" id="FechaFin"
-                            aria-describedby="emailHelp" name="fecha_fin">
+                            <input type="text" id="name" class="form-control" wire:model="codigo_producto"
+                                disabled>
 
+                        </div>
                     </div>
-                    <div id="emailHelp" class="form-text"><strong>Selecciona la Fecha ó Fechas de las cuales deseas optener los datos</strong>
+                    <div class="col-md-4 col-12">
+                        <div class="form-group">
+                            <label for="imagen" class="form-label">Producto</label>
+                            <input type="text" id="name" class="form-control" wire:model="producto"
+                                 disabled>
+
+                        </div>
                     </div>
+                    <div class="col-md-2 col-12">
+                        <div class="form-group">
+                            <label for="imagen" class="form-label">Precio de Compra</label>
+                            <input type="text" id="name" class="form-control" wire:model="precio_compra"
+                                 name="precio_compra">
+
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="form-group">
+                            <label for="imagen" class="form-label">Proveedor</label>
+                            <input type="text" id="name" class="form-control" wire:model="proveedor"
+                                 disabled>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="form-group">
+                            <label for="imagen" class="form-label">Dirección del Proveedor</label>
+                            <textarea cols="4" rows="2" class="form-control" wire:model="direc_proveedor"
+                                disabled></textarea>
+
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-12">
+                        <div class="form-group">
+                            <label for="imagen" class="form-label">Telefono del Proveedor</label>
+                            <input type="text" id="name" class="form-control" wire:model="tel_proveedor"
+                                 disabled>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="form-group">
+                            <label for="imagen" class="form-label">Contacto del Proveedor</label>
+                            <input type="text" id="name" class="form-control" wire:model="contacto"
+                                 disabled>
+
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-12">
+                        <div class="form-group">
+                            <label for="imagen" class="form-label">Telefono del Contacto</label>
+                            <input type="text" id="name" class="form-control" wire:model="tel_contacto"
+                                 disabled>
+
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-12">
+                        <div class="form-group">
+                            <label for="imagen" class="form-label">Estado del Proveedor</label>
+                            @if ($estado_proveedor == 1)
+                            <input type="text" id="name" class="form-control" value="Activo" disabled>
+                            @else
+                            <input type="text" id="name" class="form-control" value="Desactivado" disabled>
+                            @endif
+
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <label for="imagen" class="form-label">Fecha de Entrega</label>
+                            @if ( $fecha_entrega == null )
+                            <input type="date" id="name" class="form-control" name="fecha_entrega">
+                            <div class="form-text">
+                                No hay fecha de entrega para este pedido
+                            </div>
+                            @else
+                            <input type="date" id="name" class="form-control" name="fecha_entrega" wire:model="fecha_entrega"
+                               >
+                            @endif
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="form-group">
+                            <label for="imagen" class="form-label">Estado del Pedido</label>
+                            <select name="estado_pedido" class="form-select">
+                                @switch($estado_pedido)
+                                @case(0)
+                                <option value="0" selected>Pendiente de Pedido</option>
+                                <option value="1">Pedido Realizado</option>
+                                <option value="2">Producto no Fabricado</option>
+                                <option value="3">Proveedor no Activo</option>
+                                @break
+                                @case(1)
+                                <option value="0">Pendiente de Pedido</option>
+                                <option value="1" selected>Pedido Realizado</option>
+                                <option value="2">Producto no Fabricado</option>
+                                <option value="3">Proveedor no Activo</option>
+                                @break
+                                @case(2)
+                                <option value="0">Pendiente de Pedido</option>
+                                <option value="1">Pedido Realizado</option>
+                                <option value="2" selected>Producto no Fabricado</option>
+                                <option value="3">Proveedor no Activo</option>
+                                @break
+                                @case(3)
+                                <option value="0">Pendiente de Pedido</option>
+                                <option value="1">Pedido Realizado</option>
+                                <option value="2">Producto no Fabricado</option>
+                                <option value="3" selected>Proveedor no Activo</option>
+                                @break
+                                @endswitch
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-12">
+                        <div class="form-group">
+                            <label for="imagen" class="form-label">Cantidad del Producto</label>
+                            <input type="number" id="name" name="cantidad" class="form-control" wire:model="cantidad" >
+
+                        </div>
+                    </div>
+                  
+                </div>
                 </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-primary">Descargar PDF</button>
+              <button type="button" class="btn btn-primary" wire:click="UpdPedido">Descargar PDF</button>
             </div>
           </div>
         </div>

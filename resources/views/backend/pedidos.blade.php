@@ -10,6 +10,7 @@
         <h2 class="mb-2 page-title">Listado de Pedidos a Proveedores</h2>
         <div class="col-12 d-flex justify-content-end mt-3">
             @livewire('backend.pedidos-component')
+            @livewire('backend.pedidos-pdf-component')
             <button type="button" class="btn  btn-primary" data-toggle="modal" data-target="#pedidosModal">Descargar en PDF <i
                     class="fe fe-file-text fe-16"></i></button>
         </div>
@@ -76,7 +77,7 @@
 
                                     <td class="text-center">
                                         <button type="button" class="btn" data-toggle="modal" data-target="#marcaModal"
-                                            onclick="Livewire.emit('asignMarca',@js($m) )">
+                                            onclick="Livewire.emit('asignPedido',@js($p) )">
                                             <i class="fe fe-edit fe-16 text-success" data-toggle="tooltip"
                                                 data-placement="top" title="Editar"></i>
                                         </button>
@@ -102,24 +103,7 @@
 
 @push('scripts')
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
-<script>
-    let trash = (id) => {
-        Swal.fire({
-            title: '¿Estás seguro que desea desactivar esta Marca?',
-          //text: "¡Está acción es irreversible!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, desactivar',
-            cancelButtonText: 'Cancelar'
-            }).then((result) => {
-            if (result.isConfirmed) {
-                Livewire.emit('dropByStateMarca', id)
-            }
-        })
-    }
-</script>
+
 
 @endpush
 
