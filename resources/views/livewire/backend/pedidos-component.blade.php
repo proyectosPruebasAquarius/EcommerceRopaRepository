@@ -1,10 +1,10 @@
 <div>
     <div class="modal fade" id="pedidosModal" tabindex="-1" aria-labelledby="pedidosModalLabel" aria-hidden="true" wire:ignore.self>
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title col-11 text-center" id="pedidosModalLabel">Descarga de PDF de
-                Pedidos de Proveedores</h5>
+              <h5 class="modal-title col-11 text-center" id="pedidosModalLabel">Edicion de
+                Pedido de Proveedor</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -33,9 +33,12 @@
                     <div class="col-md-2 col-12">
                         <div class="form-group">
                             <label for="imagen" class="form-label">Precio de Compra</label>
-                            <input type="text" id="name" class="form-control" wire:model="precio_compra"
+                            <input type="text" id="name" class="form-control
+                                
+                            @error('precio_compra')  is-invalid @enderror
+                            " wire:model="precio_compra"
                                  name="precio_compra">
-
+                                 @error('precio_compra') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
                     <div class="col-md-4 col-12">
@@ -92,14 +95,12 @@
                     <div class="col-md-3 col-12">
                         <div class="form-group">
                             <label for="imagen" class="form-label">Fecha de Entrega</label>
-                            @if ( $fecha_entrega == null )
-                            <input type="date" id="name" class="form-control" name="fecha_entrega">
+                            <input type="date" id="name" class="form-control" name="fecha_entrega" wire:model="fecha_entrega"
+                            >
+                            @if ( $fecha_entrega == null )                           
                             <div class="form-text">
                                 No hay fecha de entrega para este pedido
-                            </div>
-                            @else
-                            <input type="date" id="name" class="form-control" name="fecha_entrega" wire:model="fecha_entrega"
-                               >
+                            </div>                                                       
                             @endif
 
 
@@ -108,33 +109,13 @@
                     <div class="col-md-4 col-12">
                         <div class="form-group">
                             <label for="imagen" class="form-label">Estado del Pedido</label>
-                            <select name="estado_pedido" class="form-select">
-                                @switch($estado_pedido)
-                                @case(0)
-                                <option value="0" selected>Pendiente de Pedido</option>
-                                <option value="1">Pedido Realizado</option>
-                                <option value="2">Producto no Fabricado</option>
-                                <option value="3">Proveedor no Activo</option>
-                                @break
-                                @case(1)
-                                <option value="0">Pendiente de Pedido</option>
-                                <option value="1" selected>Pedido Realizado</option>
-                                <option value="2">Producto no Fabricado</option>
-                                <option value="3">Proveedor no Activo</option>
-                                @break
-                                @case(2)
-                                <option value="0">Pendiente de Pedido</option>
-                                <option value="1">Pedido Realizado</option>
-                                <option value="2" selected>Producto no Fabricado</option>
-                                <option value="3">Proveedor no Activo</option>
-                                @break
-                                @case(3)
+                            <select name="estado_pedido" class="form-control" wire:model="estado_pedido">
+                             
                                 <option value="0">Pendiente de Pedido</option>
                                 <option value="1">Pedido Realizado</option>
                                 <option value="2">Producto no Fabricado</option>
-                                <option value="3" selected>Proveedor no Activo</option>
-                                @break
-                                @endswitch
+                                <option value="3">Proveedor no Activo</option>
+                               
                             </select>
 
                         </div>
@@ -142,8 +123,8 @@
                     <div class="col-md-3 col-12">
                         <div class="form-group">
                             <label for="imagen" class="form-label">Cantidad del Producto</label>
-                            <input type="number" id="name" name="cantidad" class="form-control" wire:model="cantidad" >
-
+                            <input type="number" id="name" name="cantidad" class="form-control  @error('cantidad') is-invalid @enderror" wire:model="cantidad">
+                            @error('cantidad') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
                   
@@ -152,9 +133,27 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-primary" wire:click="UpdPedido">Descargar PDF</button>
+              <button type="button" class="btn btn-primary" wire:click="UpdPedido">Actualizar</button>
             </div>
           </div>
         </div>
       </div>
 </div>
+ 
+@push('scripts')
+<script>
+  
+    $('#pedidosModal').on('hidden.bs.modal', function (e) {
+        Livewire.emit('resetNamesPedido');
+    })
+
+    window.addEventListener('closeModal', event => {
+    $("#pedidosModal").modal('hide');  
+      
+      
+    });
+
+ 
+
+</script>
+@endpush

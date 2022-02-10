@@ -244,7 +244,7 @@
               <strong class="card-title">Productos mas Vendidos</strong>
               
             </div>
-            <div class="card-body" data-simplebar style="height:355px; overflow-y: auto; overflow-x: hidden;">
+            <div class="card-body"  style="height:355px;">
               <table class="table table-striped table-hover table-borderless">
                 <thead>
                   <tr class=" bg-primary">
@@ -255,23 +255,26 @@
                   </tr>
                 </thead>
                 <tbody >
-                  @forelse ($bestSellingProducts as $p)
-                  <tr>
-                      <th class="h-25 w-25 text-center">
-                          <img src="{{ asset('storage/'.json_decode($p->imagen)[0]) }}" class="h-25 w-25">
-                      </th>
-                      <th class="text-start" >{{ $p->producto }}</th>
-                      <th class="text-start">{{ $p->cuentaTotal }}</th>
-                  </tr>
-                  @empty
-                  <tr>
-                      <th>
-                          <h1 class="text-center ">No hay Ventas Registradas</h1>
-                      </th>
-                      
-                  </tr>
-                  
-                  @endforelse
+                  <div data-simplebar style="overflow-y: auto; overflow-x: hidden;">
+                    @forelse ($bestSellingProducts as $p)
+                    <tr>
+                        <th class="h-25 w-25 text-center">
+                            <img src="{{ asset('storage/'.json_decode($p->imagen)[0]) }}" class="h-25 w-25">
+                        </th>
+                        <th class="text-start" >{{ $p->producto }}</th>
+                        <th class="text-start">{{ $p->cuentaTotal }}</th>
+                    </tr>
+                    @empty
+                    <tr>
+                        <th>
+                            <h1 class="text-center ">No hay Ventas Registradas</h1>
+                        </th>
+                        
+                    </tr>
+                    
+                    @endforelse
+                  </div>
+                 
                   
                 </tbody>
               </table>

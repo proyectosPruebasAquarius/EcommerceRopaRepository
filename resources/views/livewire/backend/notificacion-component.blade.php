@@ -24,10 +24,10 @@
 
               @forelse ($noty as $n)
 
-              @if (isset($notify->data['id_inventario']))
+              @if (isset($n->data['id_inventario']))
               @php
               $product =
-              DB::table('inventarios')->join('productos','inventarios.id_producto','=','productos.id')->select('productos.nombre')->where('inventarios.id','=',$notify->data['id_inventario'])->get();
+              DB::table('inventarios')->join('productos','inventarios.id_producto','=','productos.id')->select('productos.nombre')->where('inventarios.id','=',$n->data['id_inventario'])->get();
               @endphp
 
               <div class="row align-items-center">
@@ -35,8 +35,7 @@
                   <span class="fe fe-package fe-24"></span>
                 </div>
                 <div class="col">
-                  <a type="button" data-toggle="modal" data-target="#detalleVentaModal"
-                    onclick="Livewire.emit('detalleVentaNoti',@js($n->data['venta_id']),@js($n->id) )">
+                  <a type="button" hrer="{{ url('administracion/pedidos') }}">
                     <small><strong>Stock minimo de : {{ $product[0]->nombre }} Alcanzado</strong></small>
                     <div class="my-0 text-muted small">Revision disponible</div>
                     

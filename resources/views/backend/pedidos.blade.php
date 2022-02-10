@@ -11,7 +11,7 @@
         <div class="col-12 d-flex justify-content-end mt-3">
             @livewire('backend.pedidos-component')
             @livewire('backend.pedidos-pdf-component')
-            <button type="button" class="btn  btn-primary" data-toggle="modal" data-target="#pedidosModal">Descargar en PDF <i
+            <button type="button" class="btn  btn-primary" data-toggle="modal" data-target="#pedidosPDFModal">Descargar en PDF <i
                     class="fe fe-file-text fe-16"></i></button>
         </div>
 
@@ -40,7 +40,7 @@
                                 @foreach ($pedidos as $p)
                                 <tr>
 
-                                    <td class="text-start">{{ $m->codigo_producto }}</td>
+                                    <td class="text-start">{{ $p->codigo_producto }}</td>
                                     <td class="text-start">{{ $p->producto }}</td>
                                     <td class="text-start">{{ $p->precio_compra }}</td>
                                     <td class="text-start">{{ $p->proveedor }}</td>
@@ -76,7 +76,7 @@
                                     </td>
 
                                     <td class="text-center">
-                                        <button type="button" class="btn" data-toggle="modal" data-target="#marcaModal"
+                                        <button type="button" class="btn" data-toggle="modal" data-target="#pedidosModal"
                                             onclick="Livewire.emit('asignPedido',@js($p) )">
                                             <i class="fe fe-edit fe-16 text-success" data-toggle="tooltip"
                                                 data-placement="top" title="Editar"></i>

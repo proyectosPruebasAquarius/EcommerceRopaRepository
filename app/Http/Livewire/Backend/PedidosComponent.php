@@ -10,7 +10,28 @@ class PedidosComponent extends Component
 
     public $id_pedido,$codigo_producto,$producto,$precio_compra,$proveedor,$direc_proveedor,$tel_proveedor,$contacto,$tel_contacto,$estado_proveedor,$fecha_entrega,$estado_pedido,$cantidad;
 
-    protected $listeners = ['asignPedido' => 'asignPedido','UpdPedido'=>'UpdPedido'];
+    protected $listeners = ['asignPedido' => 'asignPedido','UpdPedido'=>'UpdPedido','resetNamesPedido'=> 'resetInput'];
+
+
+    protected   $rules = [           
+        'precio_compra' => ['required','regex:/^(?:[1-9]\d+|\d)(?:\.\d\d)?$/'],
+        'cantidad' => ['required','numeric'],        
+    ];
+
+    protected $messages = [
+        'precio_compra.required' => 'El Precio de Compra es Obligatorio.',
+        'precio_compra.regex' => 'El formato del Precio de Compra es inválido.',                        
+        'cantidad.required' => 'La Cantidad del Producto del Pedido es Obligatorio',
+        'cantidad.numeric' => 'Formato de número no valido'
+    ];
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
+
+
+
 
 
     public function asignPedido($pedido)
@@ -32,15 +53,25 @@ class PedidosComponent extends Component
     }
 
 
+    public function resetInput()
+    {
+        $this->resetErrorBag();
+        $this->resetValidation();
+        $this->reset(['id_pedido','codigo_producto','producto','precio_compra','proveedor','direc_proveedor','tel_proveedor','contacto','tel_contacto','estado_proveedor','fecha_entrega','estado_pedido','cantidad']);
+    }
+
+
+
+
     public function UpdPedido()
     {
-
+        $this->validate();
         try {
             PedidoProveedor::where('id','=',$this->id_pedido)->update([
-                'precio' => $request->precio_compra,
-                'cantidad' => $request->cantidad,
-                'estado' => $request->estado_pedido,
-                'fecha_entrega' => $request->fecha_entrega
+                'precio' => $this->precio_compra,
+                'cantidad' => $this->cantidad,
+                'estado' => $this->estado_pedido,
+                'fecha_entrega' => $this->fecha_entrega
             ]);
             session(['alert' => ['type' => 'success', 'message' => 'Pedido Actualizado con Exito.', 'position' => 'center']]);
             return redirect()->to('/administracion/pedidos');

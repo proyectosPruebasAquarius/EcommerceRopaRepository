@@ -6,6 +6,7 @@ use App\Models\DetalleVenta;
 use App\Models\Inventario;
 use App\Models\PedidoProveedor;
 use App\Models\Venta;
+use App\Models\User;
 use App\Notifications\MinStock;
 use DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -71,13 +72,22 @@ class VentaComponent extends Component
             if ($inventarioStock->stock == $inventarioStock->min_stock || $inventarioStock->stock < $inventarioStock->min_stock) {
                 $admins = User::where('id_tipo_usuario', 1)->get();
 
-                \Notification::send($admins, new MinStock($id_notify));
+                $isSaved = PedidoProveedor::where('id_producto',$p->id_producto)->first();
 
-                $pedido_proveedor = new PedidoProveedor;
-                $pedido_proveedor->id_producto = $p->id_producto;
-                $pedido_proveedor->precio = $inventarioStock->precio_compra;
-                $pedido_proveedor->created_at = date("Y-m-d");
-                $pedido_proveedor->save();
+                if ($isSaved != null) {
+                    \Notification::send($admins, new MinStock($id_notify));
+                } else {
+                    \Notification::send($admins, new MinStock($id_notify));
+
+                    $pedido_proveedor = new PedidoProveedor;
+                    $pedido_proveedor->id_producto = $p->id_producto;
+                    $pedido_proveedor->precio = $inventarioStock->precio_compra;
+                    $pedido_proveedor->created_at = date("Y-m-d");
+                    $pedido_proveedor->save();
+                }
+                
+
+               
             }
             if ($p->cantidad > $inventarioStock->stock) {
                 \Config::set('firts', 1);
