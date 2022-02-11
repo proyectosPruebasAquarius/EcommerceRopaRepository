@@ -455,6 +455,7 @@
                        break;
                     case 'entrega-tab':
                         console.log('enytra');
+                        @this.tab = 'entrega'
                         break;
                     case 'pago-tab':
                         if (!validator()) {
