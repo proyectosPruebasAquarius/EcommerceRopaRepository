@@ -12,62 +12,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-3 col-md-3">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">
-                                    <div class="product__thumb__pic set-bg" data-setbg="{{ $product->imagen ? asset($product->imagen) : asset('frontend/img/no-picture-frame.svg') }}">
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">
-                                    <div class="product__thumb__pic set-bg" data-setbg="{{ $product->imagen ? asset($product->imagen) : asset('frontend/img/no-picture-frame.svg') }}">
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">
-                                    <div class="product__thumb__pic set-bg" data-setbg="{{ $product->imagen ? asset($product->imagen) : asset('frontend/img/no-picture-frame.svg') }}">
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">
-                                    <div class="product__thumb__pic set-bg" data-setbg="{{ $product->imagen ? asset($product->imagen) : asset('frontend/img/no-picture-frame.svg') }}">
-                                        <i class="fa fa-play"></i>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-6 col-md-9">
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                <div class="product__details__pic__item">
-                                    <img src="{{ $product->imagen ? asset($product->imagen) : asset('frontend/img/no-picture-frame.svg') }}" alt="">
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tabs-2" role="tabpanel">
-                                <div class="product__details__pic__item">
-                                    <img src="{{ $product->imagen ? asset($product->imagen) : asset('frontend/img/no-picture-frame.svg') }}" alt="">
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tabs-3" role="tabpanel">
-                                <div class="product__details__pic__item">
-                                    <img src="{{ $product->imagen ? asset($product->imagen) : asset('frontend/img/no-picture-frame.svg') }}" alt="">
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="tabs-4" role="tabpanel">
-                                <div class="product__details__pic__item">
-                                    <img src="{{ $product->imagen ? asset($product->imagen) : asset('frontend/img/no-picture-frame.svg') }}" alt="">
-                                    <a href="https://www.youtube.com/watch?v=8PJ3_p7VqHw&list=RD8PJ3_p7VqHw&start_radio=1" class="video-popup"><i class="fa fa-play"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @livewire('frontend.photos-gallery',  ['product' => $product])
             </div>
         </div>
         <div class="product__details__content">
@@ -76,13 +21,20 @@
                     <div class="col-lg-8">
                         <div class="product__details__text">
                             <h4>{{ $product->nombre }}</h4>
+                            @php
+                                $opiniones = DB::table('opiniones')->where('id_producto', $product->id_producto);                                    
+                                $countOp = $opiniones->avg('rating');
+                                if (empty($countOp)) {
+                                    $countOp = 0;
+                                }
+                            @endphp
                             <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                                <span> - 5 Reviews</span>
+                                {{-- $countOp-floor($countOp)<=0.50?$countOp-floor($countOp):round($countOp) --}}
+                                <i class="fa @if ($countOp > 0 && $countOp <= 0.50) fa-star-half-o @elseif($countOp >= 1) fa-star @else fa-star-o @endif"></i>
+                                <i class="fa @if ($countOp > 0.50 && $countOp <= 1.50) fa-star-half-o @elseif($countOp >= 2) fa-star @else fa-star-o @endif"></i>
+                                <i class="fa @if ($countOp > 1.50 && $countOp <= 2.50) fa-star-half-o @elseif($countOp >= 3) fa-star @else fa-star-o @endif"></i>
+                                <i class="fa @if ($countOp > 2.50 && $countOp <= 3.50) fa-star-half-o @elseif($countOp >= 4) fa-star @else fa-star-o @endif"></i>
+                                <i class="fa @if ($countOp > 3.50 && $countOp <= 4.50) fa-star-half-o @elseif($countOp == 5) fa-star @else fa-star-o @endif"></i>
                             </div>
                             @if (empty($product->precio_descuento))
                                 <h3>${{ $product->precio_venta }}</h3>
@@ -238,7 +190,7 @@
                                 </div>
                                 <div class="tab-pane" id="tabs-7" role="tabpanel">
                                     <div class="product__details__tab__content">
-                                        <p class="note">Nam tempus turpis at metus scelerisque placerat nulla deumantos
+                                        {{-- <p class="note">Nam tempus turpis at metus scelerisque placerat nulla deumantos
                                             solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis
                                             ut risus. Sedcus faucibus an sullamcorper mattis drostique des commodo
                                         pharetras loremos.</p>
@@ -267,7 +219,28 @@
                                                 make the suit look cheap. The texture of velvet is luxurious and
                                                 breathable. Velvet is a great choice for dinner party jacket and can be
                                             worn all year round.</p>
-                                        </div>
+                                        </div> --}}
+                                        @guest
+                                            <div class="row">
+                                                <div class="col text-center">
+                                                    <p>Debes iniciar sesión para valorar.</p>
+                                                </div>
+                                            </div>
+                                        @else
+                                            @php
+                                                $isAllowedToComment = \DB::table('detalle_ventas')->join('ventas', 'detalle_ventas.id_venta', '=', 'ventas.id')->where([
+                                                    ['detalle_ventas.id_producto',  $product->id_producto],
+                                                    ['ventas.id_usuario', auth()->user()->id]
+                                                ])->count();
+                                            @endphp
+
+                                            @if ($isAllowedToComment)
+                                                @livewire('frontend.reviews', ['id' => $product->id_producto])
+                                            @endif
+
+                                            @livewire('frontend.edit-review')
+                                        @endguest
+                                        @livewire('frontend.comments', ['id' => $product->id_producto])
                                     </div>
                                 </div>
                             </div>
@@ -280,178 +253,7 @@
     <!-- Shop Details Section End -->
 
     <!-- Related Section Begin -->
-    @php
-        $related = \DB::table('inventarios')->join('productos', 'inventarios.id_producto', '=', 'productos.id')
-        ->join('detalles_productos', 'productos.id_detalle_producto', '=', 'detalles_productos.id')        
-        ->select('inventarios.*', 'productos.nombre', 'productos.imagen', 'productos.descripcion')
-        ->where([
-            ['inventarios.estado', 1],
-            ['detalles_productos.id_categoria', $product->id_categoria],
-            ['inventarios.id', '!=', $product->id]
-        ])
-        ->distinct()->limit(4)->get();
-    @endphp
-    @if(count($related))
-        <section class="related spad">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h3 class="related-title">Productos Relacionados</h3>
-                    </div>
-                </div>
-                <div class="row">
-                    @foreach ($related as $rl)                                   
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="{{ $rl->imagen ? asset('storage/'.json_decode($rl->imagen)[0]) : asset('frontend/img/no-picture-frame.svg') }}">
-                                    @php
-                                        $createdAt = new DateTime($rl->created_at);
-                                        $actualDate = new DateTime('NOW');
-                                        //$actualDate = $actualDate->format('Y-m-d H:i:s')
-                                    @endphp
-                                    @if($createdAt->diff($actualDate)->format('%a') <= 7)
-                                        {{-- $createdAt->diff($actualDate)->format('%R%adías') --}}
-                                        <span class="label">{{ __('Nuevo') }}</span>
-                                    @endif
-                                    <ul class="product__hover">
-                                        <li><a href="#"><img src="{{ asset('frontend/img/icon/heart.png') }}" alt=""></a></li>
-                                        <li><a href="#"><img src="{{ asset('frontend/img/icon/compare.png') }}" alt=""> <span>Compare</span></a></li>
-                                        <li><a href="#"><img src="{{ asset('frontend/img/icon/search.png') }}" alt=""></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product__item__text">
-                                    <h6>{{ $rl->nombre }}</h6>
-                                    <a href="#" class="add-cart">+ Agregar al carrito</a>
-                                    <div class="rating">
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    </div>
-                                    <h5>${{ $rl->precio_venta }}</h5>
-                                    <div class="product__color__select">
-                                        <label for="pc-1">
-                                            <input type="radio" id="pc-1">
-                                        </label>
-                                        <label class="active black" for="pc-2">
-                                            <input type="radio" id="pc-2">
-                                        </label>
-                                        <label class="grey" for="pc-3">
-                                            <input type="radio" id="pc-3">
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                    {{-- <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="img/product/product-2.jpg">
-                                <ul class="product__hover">
-                                    <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                    <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                    <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6>Piqué Biker Jacket</h6>
-                                <a href="#" class="add-cart">+ Add To Cart</a>
-                                <div class="rating">
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                </div>
-                                <h5>$67.24</h5>
-                                <div class="product__color__select">
-                                    <label for="pc-4">
-                                        <input type="radio" id="pc-4">
-                                    </label>
-                                    <label class="active black" for="pc-5">
-                                        <input type="radio" id="pc-5">
-                                    </label>
-                                    <label class="grey" for="pc-6">
-                                        <input type="radio" id="pc-6">
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
-                        <div class="product__item sale">
-                            <div class="product__item__pic set-bg" data-setbg="img/product/product-3.jpg">
-                                <span class="label">Sale</span>
-                                <ul class="product__hover">
-                                    <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                    <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                    <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6>Multi-pocket Chest Bag</h6>
-                                <a href="#" class="add-cart">+ Add To Cart</a>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                </div>
-                                <h5>$43.48</h5>
-                                <div class="product__color__select">
-                                    <label for="pc-7">
-                                        <input type="radio" id="pc-7">
-                                    </label>
-                                    <label class="active black" for="pc-8">
-                                        <input type="radio" id="pc-8">
-                                    </label>
-                                    <label class="grey" for="pc-9">
-                                        <input type="radio" id="pc-9">
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="img/product/product-4.jpg">
-                                <ul class="product__hover">
-                                    <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                    <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                    <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6>Diagonal Textured Cap</h6>
-                                <a href="#" class="add-cart">+ Add To Cart</a>
-                                <div class="rating">
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                </div>
-                                <h5>$60.9</h5>
-                                <div class="product__color__select">
-                                    <label for="pc-10">
-                                        <input type="radio" id="pc-10">
-                                    </label>
-                                    <label class="active black" for="pc-11">
-                                        <input type="radio" id="pc-11">
-                                    </label>
-                                    <label class="grey" for="pc-12">
-                                        <input type="radio" id="pc-12">
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
-                </div>
-            </div>
-        </section>
-    @endif
+    @livewire('frontend.relateds-products', ['product' => $product])
     <!-- Related Section End -->
     @push('scripts')
     <script>

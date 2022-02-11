@@ -37,7 +37,7 @@
                             <h5>{{ auth()->user()->name }}</h5>
                             <h6 style="letter-spacing: 3px;"><i class="fa fa-envelope text-warning" aria-hidden="true"></i> {{ auth()->user()->email }}</h6>
                             <h6 class="mt-3" style="letter-spacing: 3px;"><i class="fa fa-phone-square text-success" aria-hidden="true"></i> {{ auth()->user()->telefono ? auth()->user()->telefono : '...' }}</h6>
-                            <a href="#" class="mt-3">Editar Perfil</a>
+                            <a type="button" data-toggle="modal" data-target="#profileModal" class="mt-3">Editar Perfil</a>
                         </div>
                         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                             <div class="row">
@@ -127,7 +127,38 @@
                                 </div>
                               </div>                            
                         </div>
-                        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+                        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                            @forelse ($valoraciones as $valoracion)
+                                <div class="row mb-2">
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <div class="card text-center w-auto border-0">                                  
+                                            <div class="card-body">
+                                                <h4 class="card-title text-danger">
+                                                    <button class="btn btn-default link"type="button" href="{{ route('details', $valoracion->nombre) }}" onclick="location.href='{{ route('details', $valoracion->nombre)}}'">{{ $valoracion->nombre }}</button>
+                                                    <br>
+                                                    <i class="fa @if ($valoracion->rating == 0.5) fa-star-half-o @elseif($valoracion->rating >= 1) fa-star @else fa-star-o @endif"></i>
+                                                    <i class="fa @if ($valoracion->rating == 1.5) fa-star-half-o @elseif($valoracion->rating >= 2) fa-star @else fa-star-o @endif"></i>
+                                                    <i class="fa @if ($valoracion->rating == 2.5) fa-star-half-o @elseif($valoracion->rating >= 3) fa-star @else fa-star-o @endif"></i>
+                                                    <i class="fa @if ($valoracion->rating == 3.5) fa-star-half-o @elseif($valoracion->rating >= 4) fa-star @else fa-star-o @endif"></i>
+                                                    <i class="fa @if ($valoracion->rating == 4.5) fa-star-half-o @elseif($valoracion->rating == 5) fa-star @else fa-star-o @endif"></i>  
+                                                </h4>
+                                              @if($valoracion->title && $valoracion->descripcion)
+                                                <p class="card-text">
+                                                    {{ $valoracion->title }}
+                                                    <br>
+                                                    {{ $valoracion->descripcion }}
+                                                    
+                                                </p>
+                                              @endif
+                                              <hr>
+                                            </div>
+                                          </div>
+                                    </div>
+                                </div>
+                            @empty
+                                {{ __('No haz realizado ninguna valoración.') }}
+                            @endforelse
+                        </div>
                     </div>
 
                 </div>
@@ -135,6 +166,7 @@
         </div>
 
         @livewire('frontend.direcciones')
+        @livewire('frontend.edit-profile')
     </div>
 
     @push('scripts')

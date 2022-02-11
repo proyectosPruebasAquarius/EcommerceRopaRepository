@@ -22,7 +22,14 @@ class InventarioController extends Controller
         ->select('inventarios.*', 'productos.id_detalle_producto', 'productos.nombre', 'productos.cod', 'productos.imagen', 'productos.descripcion', 'productos.id as producto_id', 
         'detalles_productos.id_categoria', 'detalles_productos.id_sub_categoria', 'categorias.nombre as categoria', 'categorias.id as categoria_id', 'sub_categorias.nombre as sub_categoria', 'sub_categorias.id as sub_categoria_id')
         ->first(); */
-        return view('frontend.layouts.product-details')->with('product', $name);
+        $inventario = Inventario::join('productos', 'inventarios.id_producto', '=', 'productos.id')->where('productos.nombre', $name)->count();
+        if ($inventario) {
+            return view('frontend.layouts.product-details')->with('product', $name);
+        } else {
+            /* return abort(404); */
+            return redirect('/productos');
+        }
+                
     }
 
     /**

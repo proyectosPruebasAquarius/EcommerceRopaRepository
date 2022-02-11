@@ -16,6 +16,7 @@ use App\Models\SubCategoria;
 use App\Models\Talla;
 use App\Models\Venta;
 use App\Models\PedidoProveedor;
+use App\Models\Banner;
 use Illuminate\Support\Facades\Crypt;
 use DB;
 
@@ -122,6 +123,14 @@ class IndexBackendController extends Controller
        
         return view('backend.pedidos')->with('pedidos',$pedidos);
     }
+
+    public function indexBanner()
+    {
+        $banners = Banner::select('id as id_banner','titulo','sub_titulo','descripcion','imagen')->get();
+
+        return view('backend.banners')->with('banners',$banners);
+    }
+
 
 
 

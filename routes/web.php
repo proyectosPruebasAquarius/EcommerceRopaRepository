@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,37 +16,73 @@ use Illuminate\Support\Facades\Route;
 */
 /*Frontend */
 
-Route::get('/', function () {
-    /* return view('frontend.blank'); */
-    return view('frontend.layouts.home');
-});
-Route::get('/carrito', function () { 
-    return view('frontend.layouts.cart');
-})->middleware('cartVerify')->name('carrito');
+Auth::routes(['verify' => true]);
 
-Route::get('/perfil', [App\Http\Controllers\UserController::class, 'index'])->middleware(['auth'])->name('perfil');
+Route::group(['middleware' => 'isVerfied'], function() {
+    Route::get('/', [App\Http\Controllers\InicioController::class, 'index'])->name('inicio');
+    
+    Route::get('/perfil', [App\Http\Controllers\UserController::class, 'index'])->middleware(['auth'])->name('perfil');
+    
+    Route::get('/productos', function (Request $request) {
+        if (isset($request->search)) {
+            $search = $request->search;
+            session(['search' => $search]);
+        } else {
+            if (session()->has('search')) {
+                session()->forget('search');
+            }
+        }
+        return view('frontend.layouts.shop');
+    })->name('productos');
+    
+    Route::get('/productos/{name}', [App\Http\Controllers\InventarioController::class, 'index'])->name('details');
+    
+    Route::get('/checkout', function () {
+        return view('frontend.layouts.checkout');
+    })->middleware(['auth', 'cartVerify'])->name('checkout');
+    
+    Route::get('/carrito', function () { 
+        return view('frontend.layouts.cart');
+    })->middleware('cartVerify')->name('carrito');
+    
+   
 
-Route::get('/productos', function () {
-    return view('frontend.layouts.shop');
-})->name('productos');
+    Route::get('/sobre-nosotros', function () {
+        return view('frontend.layouts.about-us');
+    })->name('about');
 
-Route::get('/productos/{name}', [App\Http\Controllers\InventarioController::class, 'index'])->name('details');
-
-Route::get('/checkout', function () {
-    return view('frontend.layouts.checkout');
-})->middleware(['auth','cartVerify'])->name('checkout');
-
-
-
-Route::get('/administracion', function () {
-    return view('backend.blank');
+    Route::get('/contactanos', function () {
+        return view('frontend.layouts.contact-us');
+    })->name('contact');
 });
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('/login', function () {
+    return view('auth.iniciar-sesion');
+})->name('login');
 
+Route::get('/register', function () {
+    return view('auth.registrar');
+})->name('register');
+
+Route::get('/email-validation', function () {
+    return view('frontend.emails.confirmation-email');
+})->middleware('auth')->name('email.validation');
+
+/* Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+ 
+    return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify'); */
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+ 
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 /*End Frontend */
 
@@ -76,6 +114,7 @@ Route::prefix('administracion')->middleware(['auth','typeuser'])->group(function
     Route::get('/inventarios','IndexBackendController@indexInventario');
     Route::get('/ventas','IndexBackendController@indexVenta');
     Route::get('/pedidos','IndexBackendController@indexPedido');
+    Route::get('/banners','IndexBackendController@indexBanner');
     
 });
 /*End Backend */

@@ -26,7 +26,8 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    //protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -37,4 +38,14 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    /* public function authenticated()
+    {
+        if (!auth()->user()->hasVerifiedEmail()) {
+            # code...
+            $uu = auth()->user()->email;
+            auth()->logout();
+            return view('frontend.emails.confirmation-email')->with('title', 'Correo Electrónico Enviado')->with('message', 'Verifica tú correo electrónico '.$uu.' para poder continuar.');
+        } 
+    } */
 }

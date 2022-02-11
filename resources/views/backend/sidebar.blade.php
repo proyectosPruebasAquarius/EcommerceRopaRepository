@@ -105,6 +105,12 @@
             <span class="ml-3 item-text">Pedidos</span>
           </a>
         </li>
+        <li class="nav-item w-100 " id="banners">
+          <a class="nav-link" href="{{ url('administracion/banners') }}">
+            <i class="fe fe-image fe-16"></i>
+            <span class="ml-3 item-text">Banners</span>
+          </a>
+        </li>
       </ul>
      
     </nav>

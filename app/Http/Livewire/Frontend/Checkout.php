@@ -48,6 +48,8 @@ class Checkout extends Component
     // Datos_ventas
     public $numero;
     public $imagen;
+    // Datso usuario
+    public $telefono;
 
     protected $rules = [
         //'direccion' => 'required_without_all:id_direccion,recoger_tienda,id_facturacion|string|min:4|max:500',
@@ -70,6 +72,8 @@ class Checkout extends Component
         'id_metodo_pago' => 'required',
         'numero' => 'required|string|min:7|max:20',
         'imagen' => 'required|image|max:5024|mimes:png,jpg,jpeg',
+
+        'telefono' => 'required|string|min:8|max:12',
     ];
 
     public function updated($propertyName)
@@ -160,6 +164,13 @@ class Checkout extends Component
                     $facturacion = $fct->id;
                 }
             }
+              /* user telefono */
+              if ($validatedData['telefono'] != auth()->user()->telefono) {
+                $telefono = User::findOrFail(auth()->user()->id);
+                $telefono->telefono = $validatedData['telefono'];
+                $telefono->saveOrFail();
+            }
+            
 
             /* venta */
             $venta = new Venta;
@@ -238,6 +249,7 @@ class Checkout extends Component
         } */
         $metodoPagoFirst = MetodoPago::first();
         $this->id_metodo_pago = $metodoPagoFirst->id;
+        $this->telefono = !empty(auth()->user()->telefono) ? auth()->user()->telefono : NULL;
     }
 
     public function render()

@@ -12,7 +12,7 @@
                         <h4>Finalizar Compra</h4>
                         <div class="breadcrumb__links">
                             <a href="{{ url('/') }}">Inicio</a>
-                            <a href="./shop.html">Carrito</a>
+                            <a href="{{ route('carrito') }}">Carrito</a>
                             <span>Finalizar Compra</span>
                         </div>
                     </div>
@@ -25,4 +25,5 @@
     <!-- Checkout Section Begin -->
     @livewire('frontend.checkout')
     <!-- Checkout Section End -->
+    
 @endsection

@@ -9,6 +9,8 @@ use App\Models\Color;
 use App\Models\Talla;
 use App\Models\Marca;
 use App\Models\Categoria;
+use App\Models\SubCategoria;
+use App\Models\Estilo;
 
 class Grids extends Component
 {
@@ -19,6 +21,8 @@ class Grids extends Component
     public $tallas = array();
     public $marcas = array();
     public $categorias = array();
+    public $sub_categorias = array();
+    public $estilos = array();
     public $pagination = 12;
     public $sortField = 'productos.nombre';
     public $sortDirection = 'asc';
@@ -29,11 +33,15 @@ class Grids extends Component
     public $filtPrecios = array();
     public $marca;
     public $category;
+    public $sub_categoria;
+    public $style;
+
+    protected $queryString = ['search', 'category', 'sub_categoria'];
 
     public function filterByColor($color)
     {
         if (in_array($color, $this->filtColors)) {
-            
+            /* \Debugbar::info($color); */
             if (($key = array_search($color, $this->filtColors)) !== false) {
                 unset($this->filtColors[$key]);
             }
@@ -75,9 +83,30 @@ class Grids extends Component
     public function filterByCategory($category)
     {
         if ($category == $this->category) {
-            $this->reset('category');            
+            $this->reset(['category', 'sub_categoria']); 
+            /* if (!empty($this->sub_categoria)) {
+                
+            }  */          
         } else {            
             $this->category = $category;
+        }
+    }
+
+    public function filterBySubCategory($subCategory)
+    {
+        if ($subCategory == $this->sub_categoria) {
+            $this->reset('sub_categoria');            
+        } else {            
+            $this->sub_categoria = $subCategory;
+        }
+    }
+
+    public function filterByStyle($style)
+    {
+        if ($style == $this->style) {
+            $this->reset('style');            
+        } else {            
+            $this->style = $style;
         }
     }
 
@@ -85,6 +114,13 @@ class Grids extends Component
     {
         $this->resetPage();
         /* $this->dispatchBrowserEvent('reload-select'); */
+    }
+
+    public function updatedSearch()
+    {
+        if (empty($this->search)) {
+            $this->reset('search');
+        }
     }
 
     public function updatedSortOrder()
@@ -111,6 +147,21 @@ class Grids extends Component
     {
         /* array_push($this->filtTallas, 'xs', '4xl');
         \Debugbar::info($this->filtTallas); */
+        if (session()->has('search')) {
+            $this->search = session('search');
+        }
+        
+        if (session()->has('sub-category')) {
+            $data = session('sub-category');
+            $this->category = $data['id_categoria'];
+            $this->sub_categoria = $data['id'];            
+            session()->forget('sub-category');
+        }
+
+        if (session()->has('category')) {
+            $this->category = session('category');
+            session()->forget('category');
+        }
     }
 
     public function render()
@@ -121,6 +172,8 @@ class Grids extends Component
         $precios = $this->filtPrecios;
         $marca = $this->marca;
         $category = $this->category;
+        $style = $this->style;
+        $sub_categoria = $this->sub_categoria;
 
         $inventarios = Inventario::join('productos', 'inventarios.id_producto', '=', 'productos.id')
         ->leftJoin('detalles_colores', 'detalles_colores.id_producto', '=', 'productos.id')
@@ -128,6 +181,8 @@ class Grids extends Component
         ->leftJoin('detalles_tallas', 'detalles_tallas.id_producto', '=', 'productos.id')
         ->leftJoin('tallas', 'detalles_tallas.id_talla', '=', 'tallas.id')
         ->join('detalles_productos', 'productos.id_detalle_producto', '=', 'detalles_productos.id')
+        ->join('categorias', 'detalles_productos.id_categoria', '=', 'categorias.id')
+        ->join('sub_categorias', 'detalles_productos.id_sub_categoria', '=', 'sub_categorias.id')
         ->when($search, function ($query) use ($search) {
             $query->where('productos.nombre', 'like', $search);
         })
@@ -147,16 +202,24 @@ class Grids extends Component
             $query->where('productos.id_marca', $marca);
         })
         ->when($category, function ($query) use ($category) { 
-            $query->where('detalles_productos.id_categoria', $category);
+            $query->where('categorias.nombre', $category);
+        })
+        ->when($sub_categoria, function ($query) use ($sub_categoria) { 
+            $query->where('sub_categorias.nombre', $sub_categoria);
+        })
+        ->when($style, function ($query) use ($style) { 
+            $query->where('productos.id_estilo', $style);
         })
         ->select('inventarios.*', 'productos.nombre', 'productos.imagen', 'productos.descripcion')
         ->where('inventarios.estado', 1)
-        ->orderBy($this->sortField, $this->sortDirection)->distinct()->paginate($this->pagination);
+        ->orderBy($this->sortField, $this->sortDirection)->groupBy('productos.nombre')->paginate($this->pagination);
 
         $this->colors = Color::where('estado', 1)->get();
         $this->tallas = Talla::where('estado', 1)->get();
         $this->marcas = Marca::where('estado', 1)->get(['nombre', 'id']);
         $this->categorias = Categoria::where('estado', 1)->get(['nombre', 'id']);
+        $this->sub_categorias = SubCategoria::get(['nombre', 'id']);
+        $this->estilos = Estilo::where('estado', 1)->get(['nombre', 'id']);
         $this->dispatchBrowserEvent('reload-select');
         return view('livewire.frontend.grids', [
             'inventarios' => $inventarios,

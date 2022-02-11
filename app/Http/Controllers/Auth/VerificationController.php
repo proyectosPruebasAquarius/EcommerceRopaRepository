@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Http\Request;
+use App\models\User;
+use Illuminate\Auth\Events\Verified;
 
 class VerificationController extends Controller
 {
@@ -35,8 +38,33 @@ class VerificationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        /* $this->middleware('auth'); */
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
+    }
+
+    public function verify(Request $request)
+    {
+        $user = User::find($request->route('id'));
+
+        
+        if (!hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
+            throw new AuthorizationException;
+        }
+
+        if ($user->markEmailAsVerified())
+            event(new Verified($user));
+
+            auth()->login($user);
+            if (auth()->check()) {
+                if ($request->session()->has('lastUrl')) {
+                    return redirect($request->session()->get('lastUrl'))->with('verified', true);
+                } else {
+                    return redirect('/')->with('verified', true);
+                }
+            }else{
+                return redirect('/')->with('verified', true);
+            }
+    
     }
 }

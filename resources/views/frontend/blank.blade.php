@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/owl.carousel.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('frontend/css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/ratingStart.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/perfect-scrollbar.css') }}" type="text/css">
     @livewireStyles
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
@@ -54,7 +56,8 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <x-livewire-alert::scripts />
     <script src="{{ asset('frontend/js/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ asset('frontend/js/bootstrap.min.js') }}"></script>
+    {{--<script src="{{ asset('frontend/js/bootstrap.min.js') }}"></script> --}}
+    <script src="{{ asset('frontend/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('frontend/js/jquery.nice-select.min.js') }}"></script>
     <script src="{{ asset('frontend/js/jquery.nicescroll.min.js') }}"></script>
     <script src="{{ asset('frontend/js/jquery.magnific-popup.min.js') }}"></script>
@@ -63,6 +66,7 @@
     <script src="{{ asset('frontend/js/mixitup.min.js') }}"></script>
     <script src="{{ asset('frontend/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('frontend/js/main.js') }}"></script>
+    <script src="{{ asset('frontend/js/perfect-scrollbar.min.js') }}"></script>
     {{-- <script src="{{ asset('frontend/js/bootstrap-autocomplete.js') }}"></script> --}}
     @stack('scripts')
 </body>

@@ -43,7 +43,7 @@
                                                         @php
                                                             $count = \DB::table('productos')->join('detalles_productos', 'productos.id_detalle_producto', '=', 'detalles_productos.id')->where('detalles_productos.id_categoria', $categoria->id)->count();
                                                         @endphp
-                                                        <li><a type="button" wire:click="filterByCategory(@js($categoria->id))" @if ($categoria->id == $category) class="active" @endif>{{ $categoria->nombre }} ({{ $count }})</a></li>
+                                                        <li><a type="button" wire:click="filterByCategory(@js($categoria->nombre))" @if ($categoria->nombre == $category) class="active" @endif>{{ $categoria->nombre }} ({{ $count }})</a></li>
                                                     @empty
                                                         
                                                     @endforelse
@@ -52,6 +52,41 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                @if(!empty($category))
+                                    <div class="card">
+                                        <div class="card-heading">
+                                            <a data-toggle="collapse" data-target="#collapseSub">Sub Categorias</a>
+                                        </div>
+                                        <div id="collapseSub" class="collapse show" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <div class="shop__sidebar__categories">
+                                                    <ul class="nice-scroll">
+                                                        @forelse ($sub_categorias as $categoria)
+                                                            @php
+                                                                $count = \DB::table('productos')
+                                                                ->join('detalles_productos', 'productos.id_detalle_producto', '=', 'detalles_productos.id')
+                                                                ->join('categorias', 'detalles_productos.id_categoria', '=', 'categorias.id')
+                                                                ->where([
+                                                                    ['detalles_productos.id_sub_categoria', $categoria->id],
+                                                                    ['categorias.nombre', $category]
+                                                                ])
+                                                                ->count();
+                                                            @endphp
+
+                                                            @if($count)
+                                                                <li><a type="button" wire:click="filterBySubCategory(@js($categoria->nombre))" @if ($categoria->nombre == $sub_categoria) class="active" @endif>{{ $categoria->nombre }} ({{ $count }})</a></li>
+                                                            @endif
+                                                        @empty
+                                                            
+                                                        @endforelse
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif                                
+
                                 <div class="card">
                                     <div class="card-heading">
                                         <a data-toggle="collapse" data-target="#collapseTwo">Marcas</a>
@@ -115,8 +150,8 @@
                                         <div class="card-body">
                                             <div class="shop__sidebar__color ml-3">
                                                 @forelse ($colors as $color)
-                                                    <label style="background: {{ $color->color }}" for="sp-{{ $loop->index }}" @if (in_array($color->color, $filtColors)) class="active" @endif>
-                                                        <input type="radio" id="sp-{{ $loop->index }}"  wire:click="filterByColor(@js($color->color))">
+                                                    <label style="background: {{ $color->color }}" for="sp-{{ $loop->index }}" @if (in_array($color->nombre, $filtColors)) class="active" @endif>
+                                                        <input type="radio" id="sp-{{ $loop->index }}"  wire:click="filterByColor(@js($color->nombre))">
                                                     </label>
                                                 @empty
                                                     
@@ -127,18 +162,16 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseSix">Tags</a>
+                                        <a data-toggle="collapse" data-target="#collapseSix">Estilos</a>
                                     </div>
                                     <div id="collapseSix" class="collapse show" data-parent="#accordionExample">
                                         <div class="card-body">
                                             <div class="shop__sidebar__tags">
-                                                <a href="#">Product</a>
-                                                <a href="#">Bags</a>
-                                                <a href="#">Shoes</a>
-                                                <a href="#">Fashio</a>
-                                                <a href="#">Clothing</a>
-                                                <a href="#">Hats</a>
-                                                <a href="#">Accessories</a>
+                                                @forelse ($estilos as $estilo)
+                                                    <a type="button" @if ($estilo->id == $style) class="active" @endif wire:click="filterByStyle(@js($estilo->id))">{{ $estilo->nombre }}</a>
+                                                @empty
+                                                    
+                                                @endforelse                                                                                                
                                             </div>
                                         </div>
                                     </div>
@@ -152,7 +185,7 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="shop__product__option__left">
-                                    <p>Mostrando {{ $actualCount }}–{{ $pagination }} de {{ $totalCount }} resultados</p>
+                                    <p>Mostrando {{ $actualCount }}–{{ $pagination }} resultados</p>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -171,8 +204,11 @@
                     <div class="row">
                         @forelse ($inventarios as $inventario)
                             <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item" style="cursor: pointer;" onclick="location.href = @js(route('details', $inventario->nombre))">
+                                <div class="product__item" onclick="location.href = @js(route('details', $inventario->nombre))">
                                     <div class="product__item__pic set-bg" data-setbg="{{ $inventario->imagen ? asset('storage/'.json_decode($inventario->imagen)[0]) : 'frontend/img/no-picture-frame.svg' }}">
+                                        @if ($inventario->precio_descuento)
+                                            <span class="label" style="color: #fff; background: #111111">Oferta</span>
+                                        @endif
                                         <ul class="product__hover">
                                             <li><a href="#"><img src="{{ asset('frontend/img/icon/heart.png') }}" alt=""></a></li>
                                             <li><a href="#"><img src="{{ asset('frontend/img/icon/compare.png') }}" alt=""> <span>Compare</span></a>
@@ -183,17 +219,30 @@
                                     <div class="product__item__text">
                                         <h6>{{ $inventario->nombre }}</h6>
                                         <a href="#" class="add-cart">+ Agregar al carrito</a>
+                                        @php
+                                            $opiniones = DB::table('opiniones')->where('id_producto', $inventario->id_producto);                                    
+                                            $countOp = $opiniones->avg('rating');
+                                            if (empty($countOp)) {
+                                                $countOp = 0;
+                                            }
+                                        @endphp
                                         <div class="rating">
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
+                                            {{-- $countOp-floor($countOp)<=0.50?$countOp-floor($countOp):round($countOp) --}}
+                                            <i class="fa @if ($countOp > 0 && $countOp <= 0.50) fa-star-half-o @elseif($countOp >= 1) fa-star @else fa-star-o @endif"></i>
+                                            <i class="fa @if ($countOp > 0.50 && $countOp <= 1.50) fa-star-half-o @elseif($countOp >= 2) fa-star @else fa-star-o @endif"></i>
+                                            <i class="fa @if ($countOp > 1.50 && $countOp <= 2.50) fa-star-half-o @elseif($countOp >= 3) fa-star @else fa-star-o @endif"></i>
+                                            <i class="fa @if ($countOp > 2.50 && $countOp <= 3.50) fa-star-half-o @elseif($countOp >= 4) fa-star @else fa-star-o @endif"></i>
+                                            <i class="fa @if ($countOp > 3.50 && $countOp <= 4.50) fa-star-half-o @elseif($countOp == 5) fa-star @else fa-star-o @endif"></i>
                                         </div>
-                                        <h5>${{ $inventario->precio_venta }}</h5>
+                                        @if ($inventario->precio_descuento)
+                                            <h5>${{ $inventario->precio_descuento }} <span class="discount">${{ $inventario->precio_venta }}</span></h5>
+                                        @else
+                                            <h5>${{ $inventario->precio_venta }}</h5>    
+                                        @endif
+                                        
                                         @php
                                             $colores = \DB::table('detalles_colores')->join('colores', 'detalles_colores.id_color', '=', 'colores.id')->join('productos', 'detalles_colores.id_producto', '=', 'productos.id')
-                                            ->where('detalles_colores.id_producto', $inventario->id_producto)->select('detalles_colores.*',  'colores.nombre','colores.color')->get();
+                                            ->where('detalles_colores.id_producto', $inventario->id_producto)->select('detalles_colores.*',  'colores.color')->get();
                                         @endphp
                                         <div class="product__color__select">
                                             @forelse ($colores as $color)

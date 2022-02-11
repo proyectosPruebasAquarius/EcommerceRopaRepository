@@ -30,7 +30,7 @@ class Session extends Component
     public function login()
     {
         $validatedData = $this->validate();
-
+//\Debugbar::info($validatedData);
         if (Auth::attempt($validatedData)) {
             // Authentication passed...
             return redirect()->intended('/');

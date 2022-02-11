@@ -18,10 +18,15 @@
     <div class="offcanvas__nav__option">
         <a href="#" class="search-switch"><img src="{{ asset('frontend/img/icon/search.png') }}" alt=""></a>
         <a href="#"><img src="{{ asset('frontend/img/icon/heart.png') }}" alt=""></a>
-        <a href="#"><img src="{{ asset('frontend/img/icon/cart.png') }}" alt=""> <span>0</span></a>
-        <div class="price">$0.00</div>
+        @php
+            $cartCollection = Cart::getContent();
+            /* $cartCollection->count(); */
+        @endphp
+        <a href="{{ route('carrito') }}"><img src="{{ asset('frontend/img/icon/cart.png') }}" alt=""> <span>{{ \Cart::getTotalQuantity() }}</span></a>
+        <div class="price">${{ number_format(\Cart::getTotal(), '2', '.', '') }}</div>
     </div>
-    <div id="mobile-menu-wrap"></div>
+    {{-- <div id="mobile-menu-wrap"></div> --}}
+    @livewire('frontend.mobile-menu')
     <div class="offcanvas__text">
         <p>Free shipping, 30-day return or refund guarantee.</p>
     </div>
@@ -29,8 +34,8 @@
 <!-- Offcanvas Menu End -->
 
 <!-- Header Section Begin -->
-<header class="header">
-    <div class="header__top">
+<header class="header sticky-top">
+    {{-- <div class="header__top">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-7">
@@ -78,7 +83,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-3">
@@ -87,34 +92,21 @@
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">
-                <nav class="header__menu mobile-menu">
-                    <ul>
-                        <li class="active"><a href="./index.html">Home</a></li>
-                        <li><a href="./shop.html">Shop</a></li>
-                        <li><a href="#">Productos</a>
-                            <ul class="dropdown">
-                                <li><a href="{{ route('productos') }}">{{ __('Todos los productos') }}</a></li>
-                                <li><a href="./shop-details.html">Shop Details</a></li>
-                                <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                <li><a href="./checkout.html">Check Out</a></li>
-                                <li><a href="./blog-details.html">Blog Details</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="./blog.html">Blog</a></li>
-                        <li><a href="./contact.html">Contacts</a></li>
-                    </ul>
-                </nav>
+                @livewire('frontend.header-options')
             </div>
             <div class="col-lg-3 col-md-3">
                 <div class="header__nav__option">
-                    <a href="#" class="search-switch"><img src="{{ asset('frontend/img/icon/search.png') }}" alt=""></a>
-                    <a href="#"><img src="{{ asset('frontend/img/icon/heart.png') }}" alt=""></a>
-                    <a href="#"><img src="{{ asset('frontend/img/icon/cart.png') }}" alt=""> <span>0</span></a>
-                    <div class="price">$0.00</div>
+                    {{-- <a href="#" class="search-switch"><img src="{{ asset('frontend/img/icon/search.png') }}" alt=""></a>
+                    <a href="#"><img src="{{ asset('frontend/img/navbar-avatar.png') }}" alt="avatar"></a> --}}
+                    {{-- <a href="#"><img src="{{ asset('frontend/img/icon/heart.png') }}" alt=""></a> --}}
+                    {{-- <a href="{{ route('carrito') }}"><img src="{{ asset('frontend/img/icon/cart.png') }}" alt=""> <span>{{ \Cart::getTotalQuantity() }}</span></a>
+                    <div class="price">${{ number_format(\Cart::getTotal(), '2', '.', '') }}</div> --}}
+                    @livewire('frontend.cart-section')
                 </div>
             </div>
         </div>
         <div class="canvas__open"><i class="fa fa-bars"></i></div>
     </div>
 </header>
+    
 <!-- Header Section End -->

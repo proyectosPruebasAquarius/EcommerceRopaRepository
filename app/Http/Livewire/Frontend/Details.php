@@ -24,17 +24,17 @@ class Details extends Component
     ];
     public function updatedQty()
     {
-        
+        //\Debugbar::info($this->qty);
     }
 
     public function updatedSize()
     {
-        
+        //\Debugbar::info($this->size);
     }
 
     public function updatedStyle()
     {
-        
+        //\Debugbar::info($this->style);
     }
 
     public function addToCart($product)
@@ -81,6 +81,7 @@ class Details extends Component
                     $this->reset('toEdit');
                 } else {
                     $last = \Cart::getContent()->toArray();
+                    sort($last);
                     $lastId = end($last)['id'];
 
                     \Cart::add([
@@ -101,12 +102,15 @@ class Details extends Component
             }                   
                     
                     /* \Cart::clear(); */
-                    /* $this->emit('cartUpdated');
-                    $this->emit('show', \Cart::get($p['id'])->toArray()); */
+            $this->emit('cartUpdated');
+            $item = \Cart::getContent()->toArray();
+            $lastItem = end($item);
+            $this->dispatchBrowserEvent('show-canvas', ['data' => $lastItem]);         
+                    /*$this->emit('show', \Cart::get($p['id'])->toArray()); */
                 
             
         } catch (\Exception $e) {
-            
+           // \Debugbar::info($e->getMessage());
             $message = $e->getMessage() == 'The given data was invalid.' ? 'Seleccione la talla y el color.' : 'Ocurrió un error, por favor intentelo de nuevo.';
             $this->alert('error', $message, [
                 'position' => 'center',
@@ -176,7 +180,7 @@ class Details extends Component
     public function render()
     {
         /* $this->dispatchBrowserEvent('reload-js'); */
-        
+       // \Debugbar::info(\Cart::getContent());
         $this->product = Inventario::join('productos', 'inventarios.id_producto', '=', 'productos.id')
         ->join('detalles_productos', 'productos.id_detalle_producto', '=', 'detalles_productos.id')
         ->join('categorias', 'detalles_productos.id_categoria', '=', 'categorias.id')

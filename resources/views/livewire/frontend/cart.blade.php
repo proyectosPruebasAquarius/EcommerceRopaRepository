@@ -18,7 +18,7 @@
                                     <tr>
                                         <td class="product__cart__item">
                                             <div class="product__cart__item__pic">
-                                                <img src="{{ $value['attributes']['image'] ? asset('storage/'.json_decode($value['attributes']['image'])[0]) : asset('frontend/img/no-picture-frame.svg') }}" alt="Product Image" width="90" height="90">
+                                                <img src="{{ $value['attributes']['image'] ? asset($value['attributes']['image']) : asset('frontend/img/no-picture-frame.svg') }}" alt="Product Image" width="90" height="90">
                                             </div>
                                             <div class="product__cart__item__text">
                                                 <h6><a href="{{ route('details', $value['name']) }}">{{ $value['name'] }}</a></h6>

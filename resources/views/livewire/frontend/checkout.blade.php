@@ -3,11 +3,6 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    {{ $error }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
                     @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -24,17 +19,17 @@
                     <div class="col-12 text-center mx-auto">
                         <div class="line-connecting"></div>
                         <ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
-                            <li class="nav-item mr-3 bg-white">
+                            <li class="nav-item mr-3 black__tab">
                                 <a class="nav-link border" id="carrito-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="false">
                                   <span class="d-none d-md-block">Carrito</span> <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                 </a>
                             </li>
-                            <li class="nav-item mr-3 bg-white">
+                            <li class="nav-item mr-3 black__tab">
                                 <a class="nav-link border @if ($tab == 'entrega') active @endif" id="entrega-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="true">
                                   <span class="d-none d-md-block"> Información de Entrega</span> <i class="fa fa-truck flip" aria-hidden="true"></i>
                                 </a>
                             </li>
-                            <li class="nav-item bg-white">
+                            <li class="nav-item black__tab">
                               <a class="nav-link border @if ($tab == 'pago') active @endif" id="pago-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">
                                   <span class="d-none d-md-block">Métodos de Pago</span> <i class="fa fa-credit-card" aria-hidden="true"></i>
                               </a>
@@ -49,11 +44,11 @@
                             <div class="tab-pane fade" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">...</div>
                             <div class="tab-pane fade @if ($tab == 'entrega') show active @endif" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                                    <li class="nav-item">
+                                    <li class="nav-item black__tab">
                                       <a class="nav-link @if ($tabStore == 'direccion') active @endif" wire:click="$set('tabStore', 'direccion')" id="pills-direcciones-tab" data-toggle="pill" href="#pills-direcciones" role="tab" aria-controls="pills-direcciones" aria-selected="true"><i class="fa fa-map-o" aria-hidden="true"></i>
                                          Tús Direcciones</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item black__tab">
                                       <a class="nav-link @if ($tabStore == 'tienda') active @endif" wire:click="$set('tabStore', 'tienda')" id="pills-tienda-tab" data-toggle="pill" href="#pills-tienda" role="tab" aria-controls="pills-tienda" aria-selected="false"><i class="fa fa-shopping-basket" aria-hidden="true"></i>
                                          Recoger en Tienda</a>
                                     </li>
@@ -62,6 +57,32 @@
                                     <div class="tab-pane fade @if ($tabStore == 'direccion') show active @endif" id="pills-direcciones" role="tabpanel" aria-labelledby="pills-direcciones-tab">
                                         @forelse ($direcciones as $direccion)     
                                             @if($loop->first)
+                                                <h3 class="font-weight-bold mb-5">Datos Personales:</h3>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="table-responsive">
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr  class="border-bottom"> 
+                                                                        <th scope="col"></th>                                                                       
+                                                                        <th scope="col">Nombres y Apellidos</th>
+                                                                        <th scope="col">Teléfono</th>
+                                                                        <th scope="col">Editar</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr class="border-bottom">
+                                                                        <td></td>
+                                                                        <td>{{ auth()->user()->name }}</td>
+                                                                        <td>{{ $telefono }}</td>
+                                                                        <td><button class="btn btn-default" data-toggle="modal" data-target="#profileModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                          </div>
+                                                    </div>
+                                                </div>
+
                                                 <h3 class="font-weight-bold mb-5">Tús Direcciones:</h3>
                                                     
             
@@ -159,8 +180,18 @@
                                         @empty
                                             <div class="row" id="frm">
                                                 <div class="col-12">
-                                                    <h6 class="coupon__code"><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click
-                                                    here</a> to enter your code</h6>
+                                                    <h6 class="coupon__code"><span class="icon_tag_alt"></span> ¿Tienes un cupón? <a href="#">Presiona 
+                                                        aquí</a> para ingresar tú código.</h6>
+                                                    <h6 class="checkout__title">Datos personales</h6>
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="checkout__input">
+                                                                <p>Teléfono<span>*</span></p>
+                                                                <input type="text" @if (auth()->user()->telefono) value="{{ auth()->user()->telefono }}" @endif wire:model="telefono" @error('telefono') class="invalid" @enderror>
+                                                                @error('telefono') <span class="error text-danger">{{ $message }}</span> @enderror
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <h6 class="checkout__title">Datos de envío</h6>
                                                     <div class="row">
                                                         <div class="col-lg-6">
@@ -398,6 +429,7 @@
     {{-- Modal Edit Direcciones --}}
     @if(count($direcciones))
         @livewire('frontend.direcciones')
+        @livewire('frontend.edit-profile')
     @endif
     {{-- End Modal --}}
 
@@ -443,11 +475,11 @@
                 const frm = document.getElementById('frm');
 
                 if (frm) {
-                    if (@this.direccion && @this.id_municipio && @this.direccionFacturaciones && @this.id_municipioFacturaciones || @this.recoger_tienda) {
+                    if (@this.direccion && @this.id_municipio && @this.direccionFacturaciones && @this.id_municipioFacturaciones && @this.telefono || @this.recoger_tienda) {
                         return true;
                     }
                 } else {
-                    if (@this.id_facturacion && @this.$id_direccion || @this.recoger_tienda) {
+                    if (@this.id_facturacion && @this.$id_direccion && @this.telefono || @this.recoger_tienda) {
                         return true;
                     }
                 }
