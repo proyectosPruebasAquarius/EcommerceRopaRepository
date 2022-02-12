@@ -119,7 +119,7 @@
                 @endphp
                 <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix @if ($pr->precio_descuento) hot-sales new-arrivals @else new-arrivals @endif">
                     <div class="product__item" onclick="location.href = @js(route('details', $pr->nombre))">
-                        <div class="product__item__pic set-bg" data-setbg="{{ asset('frontend/img/product/product-1.jpg') }}">
+                        <div class="product__item__pic set-bg" data-setbg="{{ asset('storage/'.json_decode($pr->imagen)[0]) }}">
                             {{-- @if($createdAt->diff($actualDate)->format('%a') <= 7 && $pr->precio_descuento) 
                                 <span class="label" style="color: #fff; background: #111111">Oferta</span>
                             @else --}}

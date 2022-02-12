@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Frontend;
 
 use Livewire\Component;
-use App\models\Review;
+use App\Models\Review;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class EditReview extends Component

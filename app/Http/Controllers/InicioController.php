@@ -19,7 +19,7 @@ class InicioController extends Controller
         ->join('detalles_productos', 'productos.id_detalle_producto', '=', 'detalles_productos.id')
         ->join('categorias', 'detalles_productos.id_categoria', '=', 'categorias.id')
         ->join('sub_categorias', 'detalles_productos.id_sub_categoria', '=', 'sub_categorias.id')
-        ->select('inventarios.*', 'productos.nombre')->limit(8)->get();
+        ->select('inventarios.*', 'productos.nombre','productos.imagen')->limit(8)->get();
 
         $banners = Banner::get();
 

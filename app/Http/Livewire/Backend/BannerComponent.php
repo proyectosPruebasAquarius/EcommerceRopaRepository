@@ -83,7 +83,7 @@ class BannerComponent extends Component
                 $banner->imagen = $imgCompleteWithRute;
                 $banner->save();
     
-                session(['alert' => ['type' => 'success', 'message' => 'Banner Guaradado con éxito.', 'position' => 'center']]);
+                session(['alert' => ['type' => 'success', 'message' => 'Banner Guardado con éxito.', 'position' => 'center']]);
                 return redirect()->to('/administracion/banners');
                 $this->dispatchBrowserEvent('closeModal');
             } catch (\Throwable $th) {

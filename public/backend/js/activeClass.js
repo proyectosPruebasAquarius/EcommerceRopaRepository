@@ -15,7 +15,7 @@ const Productos = document.getElementById('productos');
 const Inventarios = document.getElementById('inventarios');
 const Ventas = document.getElementById('ventas');
 const Pedidos = document.getElementById('pedidos');
-
+const Banners = document.getElementById('banners');
 switch (URLactual) {
     case '/administracion':
         Inicio.classList.add('active')
@@ -65,5 +65,7 @@ switch (URLactual) {
     case '/administracion/pedidos':
         Pedidos.classList.add('active')
         break;
-
+    case '/administracion/banners':
+        Banners.classList.add('active')
+        break;
 }

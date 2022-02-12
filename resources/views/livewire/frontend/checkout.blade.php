@@ -349,9 +349,19 @@
                                                         <label for="{{ $pago->nombre }}">{{ $pago->nombre }}</label>    
                                                         @error('id_metodo_pago') <span class="error text-danger">{{ $message }}</span> @enderror                            
                                                     </div>
-                                                    <div class="col-12 align-self-center">
-                                                        <img src="{{ asset('frontend/img/logo.png') }}" alt="{{ $pago->nombre }}" class="img-fluid rounded mx-auto d-block">
+                                                   @if (count(json_decode($pago->qr)) > 1)
+                                                    @forelse (json_decode($pago->qr) as $img)
+                                                    <div class="col-6 align-self-center">
+                                                        <img src="{{ asset('storage/images/metodos_pagos/'.$img) }}" alt="{{ $pago->nombre }}" class="img-fluid rounded mx-auto  d-inline-block ">
                                                     </div>
+                                                    @empty
+                                                        
+                                                    @endforelse
+                                                   @else
+                                                   <div class="col-12 align-self-center">
+                                                    <img src="{{ asset('storage/images/metodos_pagos/'.json_decode($pago->qr)[0]) }}" alt="{{ $pago->nombre }}" class="img-fluid rounded mx-auto d-block">
+                                                </div>
+                                                   @endif
                                                     <div class="col-12 form-group">
                                                         <h5 class="text-center mt-3">Número de {{ strtolower($pago->nombre) == 'chivo wallet' ? 'BTC' : 'cuenta' }} {{ $pago->nombre }}</h5><br>
                                                         <h5 class="text-danger text-center">{{ $pago->numero }}</h5>

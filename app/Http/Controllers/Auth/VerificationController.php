@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\Request;
-use App\models\User;
+use App\Models\User;
 use Illuminate\Auth\Events\Verified;
 
 class VerificationController extends Controller

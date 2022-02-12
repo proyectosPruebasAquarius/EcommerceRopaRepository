@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Frontend;
 
 use Livewire\Component;
-use App\models\User;
+use App\Models\User;
 
 class EditProfile extends Component
 {

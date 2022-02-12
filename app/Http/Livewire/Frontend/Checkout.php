@@ -2,16 +2,16 @@
 
 namespace App\Http\Livewire\Frontend;
 
-use App\models\DatoVenta;
-use App\models\Departamento;
-use App\models\DetalleVenta;
-use App\models\Direccion;
-use App\models\DireccionFacturaccion;
-use App\models\MetodoPago;
-use App\models\Municipio;
-use App\models\Venta;
-use App\models\User;
-use App\models\Inventario;
+use App\Models\DatoVenta;
+use App\Models\Departamento;
+use App\Models\DetalleVenta;
+use App\Models\Direccion;
+use App\Models\DireccionFacturaccion;
+use App\Models\MetodoPago;
+use App\Models\Municipio;
+use App\Models\Venta;
+use App\Models\User;
+use App\Models\Inventario;
 use App\Notifications\SaleInvoice;
 use Livewire\Component;
 use Livewire\WithFileUploads;

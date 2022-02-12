@@ -102,6 +102,22 @@
                                     <li><span>Sub Categoría:</span> 
                                         {{ $product->sub_categoria }}
                                     </li>
+                                    <li>
+                                        <div class="accordion" id="accordionExample">
+
+                                            <button class="btn" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                Tallas
+                                              </button>
+                                            <div class="card">
+                                               
+                                                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                                  <div class="card-body">
+                                                    <img src="{{ asset('frontend/img/tallas.png') }}" alt="Imagen de Tallas de ropa" class="img-responsive">
+                                                  </div>
+                                                </div>
+                                              </div>
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
