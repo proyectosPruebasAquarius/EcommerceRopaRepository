@@ -205,7 +205,7 @@
                         @forelse ($inventarios as $inventario)
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="product__item" onclick="location.href = @js(route('details', $inventario->nombre))">
-                                    <div class="product__item__pic set-bg" data-setbg="{{ $inventario->imagen ? asset('storage/'.json_decode($inventario->imagen)[0]) : 'frontend/img/no-picture-frame.svg' }}">
+                                    <div class="product__item__pic set-bg-grid" style="background-image: url({{ $inventario->imagen ? asset('storage/'.json_decode($inventario->imagen)[0]) : 'frontend/img/no-picture-frame.svg' }})">
                                         @if ($inventario->precio_descuento)
                                             <span class="label" style="color: #fff; background: #111111">Oferta</span>
                                         @endif
@@ -285,7 +285,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="product__pagination">
+                            <div class="product__pagination d-flex justify-content-center">
                                 {{ $inventarios->links('livewire::custom-pagination') }} 
                                 {{--<a class="active" href="#">1</a>
                                 <a href="#">2</a>
@@ -307,10 +307,10 @@
 
                 $("select").niceSelect();
 
-                var head= document.getElementsByTagName('head')[0];
+                /* var head= document.getElementsByTagName('head')[0];
                 var script= document.createElement('script');
                 script.src= 'frontend/js/main.js';
-                head.appendChild(script);
+                head.appendChild(script); */
             })
 
             $(".shop__product__option__right").on('change', 'select', function() {

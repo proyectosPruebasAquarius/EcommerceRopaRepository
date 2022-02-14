@@ -52,8 +52,8 @@
                                 <h4><a href="{{ route('details', $item['name']) }}">
                                     {{ $item['name'] }}</a></h4>
                                 <p class="quantity">{{ $item['quantity'] }}x - <span class="amount">${{ number_format($item['price'], 2, '.', '') }}</span></p>
-                                <br>
-                                <span>Talla: {{ $item['attributes']['size'] }}</span> <span>Color: {{ $item['attributes']['color'] }}</span>
+                                
+                                <p>Talla: {{ \DB::table('tallas')->where('id', $item['attributes']['size'])->value('nombre') }} - <i class="fa fa-circle" aria-hidden="true" style="color: {{ \DB::table('colores')->where('id', $item['attributes']['color'])->value('color') }}"></i></p>
                             </div>
                         </li>
                     @empty

@@ -66,7 +66,7 @@
             data += '<div class="card border-link">'
                 data += '<div class="card-body">'
                     /* mb-3 ms-md-3 */
-                    var img = event.detail.data['attributes']['image'] ? 'http://127.0.0.1:8000/storage/'+JSON.parse(event.detail.data['attributes']['image'])[0] : @js(asset('frontend/img/no-picture-frame.svg'));
+                    var img = event.detail.data['attributes']['image'] ? 'http://3.135.184.132/storage/'+JSON.parse(event.detail.data['attributes']['image'])[0] : @js(asset('frontend/img/no-picture-frame.svg'));
                     data += '<img src="'+img+'" class="col-12 col-md-6 float-md-start rounded img-fluid img-thumbnail me-md-3 border-0" alt="'+event.detail.data['attributes']['image']+'" width="70px" height="100px">'
                     data += '<h6 class="card-title">'+event.detail.data['name']+'</h6>'
                     data += '<p class="card-text">Unidades: '+event.detail.data['quantity']+'</p>'

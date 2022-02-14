@@ -22,7 +22,7 @@
                         @php
                             $submenus = \DB::table('detalles_productos')->where('detalles_productos.id_categoria', $c->id)
                             ->join('sub_categorias', 'detalles_productos.id_sub_categoria', '=', 'sub_categorias.id')
-                            ->select('sub_categorias.*', 'detalles_productos.id_categoria')->get();
+                            ->select('sub_categorias.*', 'detalles_productos.id_categoria')->distinct()->get();
                         @endphp                                                       
                         <li @if (count($submenus)) class="subMenu" @endif><a type="button" wire:click="storeInSession(@js($c->nombre), 'category')">{{ $c->nombre }}</a>
                             @if(count($submenus))

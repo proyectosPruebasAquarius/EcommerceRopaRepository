@@ -137,6 +137,12 @@ ol {
 	background-position: top center;
 }
 
+.set-bg-grid {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: top center;
+}
+
 .spad {
 	padding-top: 100px;
 	padding-bottom: 100px;
@@ -1590,6 +1596,12 @@ ol {
 }
 
 .product__details__pic .nav-tabs .nav-item .nav-link.active .product__thumb__pic.set-bg {
+	transform: scale(0.9);
+	border: 2px solid #fff;
+	border-radius: 16px;
+}
+
+.product__details__pic .nav-tabs .nav-item .nav-link.active .product__thumb__pic.set-bg-grid {
 	transform: scale(0.9);
 	border: 2px solid #fff;
 	border-radius: 16px;
@@ -4619,6 +4631,40 @@ input[type=number] {
 	/* background: #1f1f1f;*/
 	
 	color: #dee2e6 !important;
+}
+
+.pagination .page-link:focus{
+    box-shadow: none;
+}
+.pagination>.page-item>.page-link, .pagination>.page-item>span {
+    border: 0;
+    border-radius: 30px!important;
+    transition: all .3s;
+    padding: 0 11px !important;
+    margin: 0 3px !important;
+    min-width: 30px;
+    height: 30px;
+    line-height: 30px;
+    color: #999;
+    font-weight: 400;
+    font-size: 12px;
+    text-transform: uppercase;
+    background: 0 0;
+    text-align: center;
+}
+
+.pagination>.page-item.active>a, .pagination>.page-item.active>a:focus, .pagination>.page-item.active>a:hover, .pagination>.page-item.active>span, .pagination>.page-item.active>span:focus, .pagination>.page-item.active>span:hover {
+    background-color: #9c27b0;
+    border-color: #9c27b0;
+    color: #fff;
+    box-shadow: 0 4px 5px 0 rgba(156,39,176,.14), 0 1px 10px 0 rgba(156,39,176,.12), 0 2px 4px -1px rgba(156,39,176,.2);
+}
+
+
+.pagination.pagination-info>.page-item.active>a, .pagination.pagination-info>.page-item.active>a:focus, .pagination.pagination-info>.page-item.active>a:hover, .pagination.pagination-info>.page-item.active>span, .pagination.pagination-info>.page-item.active>span:focus, .pagination.pagination-info>.page-item.active>span:hover {
+    background-color: #111111;
+    border-color: #111111;
+    box-shadow: 0 4px 5px 0 rgba(0,188,212,.14), 0 1px 10px 0 rgba(0,188,212,.12), 0 2px 4px -1px rgba(0,188,212,.2);
 }
 /* .table-borderless-custom > tr {	
 	border: 1 !important;

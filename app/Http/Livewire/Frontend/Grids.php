@@ -36,6 +36,7 @@ class Grids extends Component
     public $sub_categoria;
     public $style;
 
+    protected $listeners = ['reload-img' => '$refresh'];
     protected $queryString = ['search', 'category', 'sub_categoria'];
 
     public function filterByColor($color)
@@ -48,6 +49,7 @@ class Grids extends Component
         } else {            
             array_push($this->filtColors, $color);
         }
+        $this->resetPage();
     }
 
     public function filterBySize($size)
@@ -60,6 +62,7 @@ class Grids extends Component
         } else {            
             array_push($this->filtTallas, $size);
         }
+        $this->resetPage();
     }
 
     public function filterByPrice($precios)
@@ -69,6 +72,7 @@ class Grids extends Component
         } else {            
             $this->filtPrecios = $precios;
         }
+        $this->resetPage();
     }
 
     public function filterByBrand($brands)
@@ -78,6 +82,7 @@ class Grids extends Component
         } else {            
             $this->marca = $brands;
         }
+        $this->resetPage();
     }
 
     public function filterByCategory($category)
@@ -90,6 +95,7 @@ class Grids extends Component
         } else {            
             $this->category = $category;
         }
+        $this->resetPage();
     }
 
     public function filterBySubCategory($subCategory)
@@ -99,6 +105,7 @@ class Grids extends Component
         } else {            
             $this->sub_categoria = $subCategory;
         }
+        $this->resetPage();
     }
 
     public function filterByStyle($style)
@@ -108,6 +115,7 @@ class Grids extends Component
         } else {            
             $this->style = $style;
         }
+        $this->resetPage();
     }
 
     public function updatingSearch()

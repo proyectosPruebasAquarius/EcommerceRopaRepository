@@ -8,6 +8,7 @@
                             <thead>
                                 <tr>
                                     <th>Producto</th>
+                                    {{-- <th>Talla y Color</th> --}}
                                     <th>Cantidad</th>
                                     <th>Total</th>
                                     <th></th>
@@ -18,13 +19,19 @@
                                     <tr>
                                         <td class="product__cart__item">
                                             <div class="product__cart__item__pic">
-                                                <img src="{{ $value['attributes']['image'] ? asset($value['attributes']['image']) : asset('frontend/img/no-picture-frame.svg') }}" alt="Product Image" width="90" height="90">
+                                                <img src="{{ $value['attributes']['image'] ? asset('storage/'.json_decode($value['attributes']['image'])[0]) : asset('frontend/img/no-picture-frame.svg') }}" alt="Product Image" width="90" height="90">
                                             </div>
                                             <div class="product__cart__item__text">
                                                 <h6><a href="{{ route('details', $value['name']) }}">{{ $value['name'] }}</a></h6>
+                                                <h6>Talla: {{ \DB::table('tallas')->where('id', $value['attributes']['size'])->value('nombre') }} - <i class="fa fa-circle" aria-hidden="true" style="color: {{ \DB::table('colores')->where('id', $value['attributes']['color'])->value('color') }}"></i></h6>
                                                 <h5>${{ $value['price'] }}</h5>
                                             </div>
                                         </td>
+                                        {{-- <td class="product__cart__item">
+                                            <div class="product__cart__item__text">
+                                                <h6>Talla: {{ \DB::table('tallas')->where('id', $value['attributes']['size'])->value('nombre') }} - <i class="fa fa-circle" aria-hidden="true" style="color: {{ \DB::table('colores')->where('id', $value['attributes']['color'])->value('color') }}"></i></h6>
+                                            </div>
+                                        </td> --}}
                                         <td class="quantity__item">
                                             <div class="quantity">
                                                 

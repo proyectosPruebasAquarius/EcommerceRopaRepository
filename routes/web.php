@@ -35,7 +35,7 @@ Route::group(['middleware' => 'isVerfied'], function() {
         return view('frontend.layouts.shop');
     })->name('productos');
     
-    Route::get('/productos/{name}', [App\Http\Controllers\InventarioController::class, 'index'])->name('details');
+    Route::get('/productos/{name}', [App\Http\Controllers\InventarioController::class, 'index'])->where('name', '(.*)')->name('details');
     
     Route::get('/checkout', function () {
         return view('frontend.layouts.checkout');

@@ -53,11 +53,14 @@ class ProductoComponent extends Component
         'descripcion' => 'required|min:10|max:1500',
         'marca' => 'required',
         'estilo' => 'required',
+        
 
     ];
     protected $messages = [
         'nombre.required' => 'El Nombre es Obligatorio',
         'cod.required' => 'El Codigo es Obligatorio',
+        'cod.min' => 'El Codigo debe contener un minimo de :min de caracteres',
+        'cod.max' => 'El Codigo debe contener un maximo de :max de caracteres',
         'marca.required' => 'La Marca es Obligatoria',
         'estilo.required' => 'El estilo es Obligatorio',
         'subcat.required' => 'La sub Categoria es Obligatoria',
@@ -65,6 +68,7 @@ class ProductoComponent extends Component
         'talla.required' => 'La Talla es Obligatoria',
         'categoria.required' => 'La Categoria es Obligatoria',
 
+        'proveedor.required' => 'EL Proveedor es Obligatorio',
         'descripcion.required' => 'La descripcion es Obligatoria',
         'descripcion.min' => 'La descripcion debe contener un mínimo de :min caracteres',
         'descripcion.max' => 'La descripcion debe contener un máximo de :max caracteres',
@@ -192,7 +196,7 @@ class ProductoComponent extends Component
                 'descripcion' => 'required|min:10|max:1500',
                 'marca' => 'required',
                 'estilo' => 'required',
-
+                
             ];
         } else {
             $this->rules = [
@@ -207,6 +211,7 @@ class ProductoComponent extends Component
                 'subcat' => 'required',
                 'color' => 'required',
                 'talla' => 'required',
+                'proveedor' => 'required'
             ];
         }
         $this->validate();

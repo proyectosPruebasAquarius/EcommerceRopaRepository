@@ -52,40 +52,11 @@ class Details extends Component
                 )
             ];
             \Debugbar::info($obj); */
-            
+            $showCanvas = false;
             if (\Cart::isEmpty()) {
-                \Cart::add([
-                    'id' => 1,//$product['id'],
-                    'name' => $product['nombre'],
-                    'price' => $product['precio_descuento'] ? $product['precio_descuento'] : $product['precio_venta'],                        
-                    'quantity' => $this->qty,
-                    'attributes' => array(
-                        'image' => $product['imagen'],
-                        'id_producto' => $product['id_producto'],
-                        'id_inventario' => $product['id'],
-                        'size' => $this->size,
-                        'color' => $this->style,
-                        'unid' => 1
-                    )
-                ]);
-            } else {
-                //\Debugbar::info(['prueba' => $this->returnId($product)]);
-                $isUpdate = $this->returnId($product);
-                if ($isUpdate) {
-                    \Cart::update($isUpdate, array(
-                        'quantity' => [
-                            'relative' => false,
-                            'value' => $this->qty
-                        ],
-                    ));
-                    $this->reset('toEdit');
-                } else {
-                    $last = \Cart::getContent()->toArray();
-                    sort($last);
-                    $lastId = end($last)['id'];
-
+                if ($this->corroborate($product['id'], $this->qty)) {
                     \Cart::add([
-                        'id' => $lastId+1,//$product['id'],
+                        'id' => 1,//$product['id'],
                         'name' => $product['nombre'],
                         'price' => $product['precio_descuento'] ? $product['precio_descuento'] : $product['precio_venta'],                        
                         'quantity' => $this->qty,
@@ -98,14 +69,75 @@ class Details extends Component
                             'unid' => 1
                         )
                     ]);
+                    $showCanvas = true;
+                } else {
+                    $this->alert('error', 'No está disponible la cantidad deseada para el ítem.', [
+                        'position' => 'center',
+                        'timer' => 3000,
+                        'toast' => true,
+                    ]);
+                }
+            } else {
+                //\Debugbar::info(['prueba' => $this->returnId($product)]);
+                $isUpdate = $this->returnId($product);
+                if ($isUpdate) {
+                    $cartV = \Cart::get($isUpdate)->toArray();
+                    /* \Debugbar::info(intval($this->qty) + intval($cartV['quantity'])); */
+                    if ($this->corroborate($product['id'], intval($this->qty) + intval($cartV['quantity']))) {
+                        \Cart::update($isUpdate, array(
+                            /* 'quantity' => [
+                                'relative' => false,
+                                'value' => $this->qty
+                            ], */
+                            'quantity' => $this->qty                        
+                        ));      
+                        $showCanvas = true;                  
+                    } else {
+                        $this->alert('error', 'No está disponible la cantidad deseada para el ítem.', [
+                            'position' => 'center',
+                            'timer' => 3000,
+                            'toast' => true,
+                        ]);
+                    }
+                    $this->reset('toEdit');
+                } else {
+                    $last = \Cart::getContent()->toArray();
+                    sort($last);
+                    $lastId = end($last)['id'];
+
+                    if ($this->corroborate($product['id'], $this->qty)) {
+                        \Cart::add([
+                            'id' => $lastId+1,//$product['id'],
+                            'name' => $product['nombre'],
+                            'price' => $product['precio_descuento'] ? $product['precio_descuento'] : $product['precio_venta'],                        
+                            'quantity' => $this->qty,
+                            'attributes' => array(
+                                'image' => $product['imagen'],
+                                'id_producto' => $product['id_producto'],
+                                'id_inventario' => $product['id'],
+                                'size' => $this->size,
+                                'color' => $this->style,
+                                'unid' => 1
+                            )
+                        ]);
+                        $showCanvas = true;
+                    } else {
+                        $this->alert('error', 'No está disponible la cantidad deseada para el ítem.', [
+                            'position' => 'center',
+                            'timer' => 3000,
+                            'toast' => true,
+                        ]);
+                    }
                 }
             }                   
                     
                     /* \Cart::clear(); */
             $this->emit('cartUpdated');
-            $item = \Cart::getContent()->toArray();
-            $lastItem = end($item);
-            $this->dispatchBrowserEvent('show-canvas', ['data' => $lastItem]);         
+            if ($showCanvas) {
+                $item = \Cart::getContent()->toArray();
+                $lastItem = end($item);
+                $this->dispatchBrowserEvent('show-canvas', ['data' => $lastItem]); 
+            }        
                     /*$this->emit('show', \Cart::get($p['id'])->toArray()); */
                 
             
