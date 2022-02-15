@@ -9,6 +9,7 @@ use App\Models\Venta;
 use App\Models\User;
 use App\Notifications\MinStock;
 use DB;
+use App\Mail\OutStock;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
@@ -98,6 +99,13 @@ class VentaComponent extends Component
                 if (\Config::get('firts') > 0) {
                     \Config::set('firts', 0);
                     Venta::where('id', '=', $id)->update(['estado' => 2]);
+
+
+                    $email = DetalleVenta::join('productos', 'productos.id', '=', 'detalle_ventas.id_producto')->join('inventarios', 'inventarios.id_producto', '=', 'productos.id')
+                    ->join('ventas', 'ventas.id', '=', 'detalle_ventas.id_venta')->join('users', 'users.id', '=', 'ventas.id_usuario')
+                    ->select('productos.nombre', 'productos.id as id_prod', 'inventarios.stock', 'detalle_ventas.cantidad', 'users.email as correo', 'ventas.created_at as fecha')->where('detalle_ventas.id_venta', '=', $id)->get();                    
+                    \Mail::to($email[0]->correo)->send(new OutStock($email));
+              
                     $this->dispatchBrowserEvent('closeModal');
                     $this->alert('warning', 'El stock actual del producto es menos que la cantidad seleccionada del producto', [
                         'position' => 'center',
