@@ -42,7 +42,12 @@
                     {{ $co->nombre }}
                   </td>
                   <td class="text-center">
-                    <button class="btn" data-toggle="tooltip" data-placement="top" title="{{ $co->nombre }}" style="background-color: {{ $co->color }}; height:50px;width:100px">
+                    <button class="btn
+                    @if(strtolower($co->nombre) == 'blanco')
+                    rounded border border-dark
+                    @endif
+                    
+                    " data-toggle="tooltip" data-placement="top" title="{{ $co->nombre }}" style="background-color: {{ $co->color }}; height:50px;width:100px">
 
                     </button>
 

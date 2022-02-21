@@ -1,6 +1,21 @@
 <div>
     <div class="row">
-        <div class="col-lg-3 col-md-3">
+        <div class="col-lg-6 col-md-12 col-12">
+            {{-- Img Preview --}}
+            <div class="tab-content">
+                @forelse (json_decode($product->imagen) as $image)
+                    <div class="tab-pane @if ($loop->first) active @endif" id="tabs-{{ $loop->index }}" role="tabpanel">
+                        <div class="product__details__pic__item">
+                            <img src="{{ asset('storage/'.$image) }}" alt="">
+                        </div>
+                    </div>
+                @empty
+                    
+                @endforelse
+                
+            </div>
+
+            {{-- Tabs selector --}}
             <ul class="nav nav-tabs" role="tablist">
                 @forelse (json_decode($product->imagen) as $image)
                     <li class="nav-item">
@@ -33,19 +48,9 @@
                 </li> --}}
             </ul>
         </div>
-        <div class="col-lg-6 col-md-9">
-            <div class="tab-content">
-                @forelse (json_decode($product->imagen) as $image)
-                    <div class="tab-pane @if ($loop->first) active @endif" id="tabs-{{ $loop->index }}" role="tabpanel">
-                        <div class="product__details__pic__item">
-                            <img src="{{ asset('storage/'.$image) }}" alt="">
-                        </div>
-                    </div>
-                @empty
-                    
-                @endforelse
-                
-            </div>
+
+        <div class="col-12 col-lg-6 col-md-12">
+            @livewire('frontend.detail-content', ['name' => $product->nombre])
         </div>
     </div>
 </div>

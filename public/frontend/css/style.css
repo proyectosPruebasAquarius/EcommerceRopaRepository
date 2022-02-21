@@ -774,13 +774,13 @@ ol {
 	content: "";
 }
 
-.categories__text h2 {
+.categories__text h2 a {
 	color: #b7b7b7;
 	line-height: 72px;
 	font-size: 34px;
 }
 
-.categories__text h2 span {
+.categories__text h2 span a {
 	font-weight: 700;
 	color: #111111;
 }
@@ -1547,7 +1547,8 @@ ol {
 
 .product__details__pic .nav-tabs {
 	border-bottom: none;
-	width: 105px;
+	/* width: 105px; */
+	margin-top: 5px;
 }
 
 .product__details__pic .nav-tabs .nav-item {
@@ -1728,9 +1729,9 @@ ol {
 }
 
 .product__details__option__size label.active {
-	background: #111111;
+	background: #111111 !important;
 	color: #ffffff;
-	border-color: #111111;
+	border-color: #111111 !important;
 }
 
 .product__details__option__size label input {

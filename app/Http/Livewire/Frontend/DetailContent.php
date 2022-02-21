@@ -5,8 +5,8 @@ namespace App\Http\Livewire\Frontend;
 use App\Models\Inventario;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
-/* Todos los metodos de este componente son inservibles a excepción del render y la petición a la DB la ocupo para algunas llamdas en la vista, los metodos funcionales se encuentran en el componente DetailContent */
-class Details extends Component
+
+class DetailContent extends Component
 {
     use LivewireAlert;
     public $name;
@@ -211,8 +211,6 @@ class Details extends Component
 
     public function render()
     {
-        /* $this->dispatchBrowserEvent('reload-js'); */
-       // \Debugbar::info(\Cart::getContent());
         $this->product = Inventario::join('productos', 'inventarios.id_producto', '=', 'productos.id')
         ->join('detalles_productos', 'productos.id_detalle_producto', '=', 'detalles_productos.id')
         ->join('categorias', 'detalles_productos.id_categoria', '=', 'categorias.id')
@@ -222,6 +220,6 @@ class Details extends Component
         'detalles_productos.id_categoria', 'detalles_productos.id_sub_categoria', 'categorias.nombre as categoria', 'categorias.id as categoria_id', 'sub_categorias.nombre as sub_categoria', 'sub_categorias.id as sub_categoria_id')
         ->first();
 
-        return view('livewire.frontend.details');
+        return view('livewire.frontend.detail-content');
     }
 }

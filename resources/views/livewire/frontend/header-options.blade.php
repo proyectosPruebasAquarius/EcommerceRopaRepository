@@ -42,8 +42,8 @@
                     @endforelse
                 </ul>
             </li>
-            <li @if (request()->route()->getName() == 'about') class="active" @endif><a href="{{ route('about') }}">Sobre Nosotros</a></li>
-            <li @if (request()->route()->getName() == 'contact') class="active" @endif><a href="{{ route('contact') }}">Contactanos</a></li>
+            {{-- <li @if (request()->route()->getName() == 'about') class="active" @endif><a href="{{ route('about') }}">Sobre Nosotros</a></li>
+            <li @if (request()->route()->getName() == 'contact') class="active" @endif><a href="{{ route('contact') }}">Contactanos</a></li> --}}
         </ul>
     </nav>
 </div>
